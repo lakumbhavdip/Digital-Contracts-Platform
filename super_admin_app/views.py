@@ -29,7 +29,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import Paginator
 from datetime import datetime, timedelta
 from django.utils import timezone
-from .tasks import task_fun
+# from .tasks import task_fun
 from user_agents import parse
 import geocoder
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -45,7 +45,7 @@ from rest_framework.authtoken.models import Token
 from django.core.files import File
 
 def login(request):
-    ilogo = GeneralSettings.objects.all()
+    ilogo = GeneralSettings.objects.filter(id=1)
     for i in ilogo:
         login_page_logo = i.login_page_logo
         media_path = login_page_logo.path if login_page_logo else None
@@ -3019,7 +3019,6 @@ def email_template_setting(request):
     else:
         return redirect('superadminapp:login')    
     
-
 # def create_email_template_setting(request):
 #     user_id = request.session.get('userid')
 #     if user_id:
