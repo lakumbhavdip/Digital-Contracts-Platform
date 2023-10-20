@@ -78,7 +78,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'super_admin_app.custom_error_middleware.CustomErrorMiddleware',
+
 ]
+
 
 ROOT_URLCONF = 'tothiq.urls'
 

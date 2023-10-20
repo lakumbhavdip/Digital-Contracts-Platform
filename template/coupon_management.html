@@ -181,7 +181,7 @@
                     </div>
                     <div class="mb-5">
                         <label for="exampleFormControlInput1" class="form-label required">Coupon Code</label>
-                        <input type="text" class="form-control form-control-solid" max="999999999999" placeholder="Enter Coupon Code" name="coupon_code" pattern="[0-9]*" required/>
+                        <input type="text" class="form-control form-control-solid" max="999999999999" placeholder="Enter Coupon Code" name="coupon_code" required/>
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -270,8 +270,8 @@
                                 class="border border-dashed border-2 border-secondary " id="coupon_pic"
                                 alt="Image not Loaded"> -->
                                 <img src="{% static 'images/img_default.jpg' %}" alt="Maintenance Mode Image" width="400px"
-                                height="250" class="border border-dashed border-secondary" id="coupon_pic" p-15>
-                            <p id="imgvalidation" class="img-size-validation" style=" color: red; ">Allowed files .png, .jpg, .jpeg, .webp | Image size : 400px X 800px | Max 2MB.</p>
+                                height="150px" class="border border-dashed border-secondary" id="coupon_pic" p-15>
+                            <p id="imgvalidation" class="img-size-validation" style=" color: red; ">Allowed files .png, .jpg, .jpeg, .webp | Image size : 400px X 150px | Max 2MB.</p>
                             <input type="file" id="couponimageInput1" class="img-size-validation-input" name="couponimageInput" accept="image/*"
                                 style="display: none;" required="True" name="banner_image"  onchange="validateImage(this)">
                             <label for="couponimageInput1" class="btn btn-primary mt-5 mx-3 btn">Select an Image</label>
@@ -298,7 +298,7 @@
                             User
                         </label>
                         <select class="form-control form-control-solid" data-control="select2"
-                            data-placeholder="Select  user" data-allow-clear="true" multiple="multiple" name="selected_user" >
+                            data-placeholder="Select user" data-allow-clear="true" multiple="multiple" name="selected_user" >
                             <option value="0" selected>Select All</option>
                             {%for item in user%}
                             <option value="{{ item.id }}">{{ item.full_name }}</option>
@@ -357,9 +357,9 @@
                                 name="discount_type" />
                         </div> -->
                                     <select class="form-select form-select-sm form-select-solid " data-control="select2"
-                                    data-placeholder=" " data-allow-clear="true" data-minimum-results-for-search="Infinity" name="discount_for">
-                                    <option value="1">Percentage</option>
-                                    <option value="2">Fixed price</option>
+                                    data-placeholder=" " data-allow-clear="true" data-minimum-results-for-search="Infinity" name="discount_type">
+                                    <option value="percentage">Percentage</option>
+                                    <option value="fixed_price">Fixed price</option>
                                 </select>
                         </div>
                         <div class="col-6 mt-6">
@@ -374,11 +374,11 @@
                                 Discount if for
                             </label>
                             <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                                data-placeholder=" " data-allow-clear="true" multiple="multiple" name="discount_for" >
+                                data-placeholder=" " data-allow-clear="true" multiple="multiple" name="discount_for_user_type" >
                                 <option></option>
                                 <option value="membership">Membership</option>
-                                <option value="contract">Contract</option>
-                                <option value="user">User</option>
+                                <option value="contracts">Contract</option>
+                                <option value="users">User</option>
                                 <option value="all" selected>All</option>
                             </select>
                         </div>
@@ -446,7 +446,7 @@
                     <div class="mb-5">
                         <label for="exampleFormControlInput1" class="form-label">Coupon Code</label>
                         <input type="text" class="form-control form-control-solid" placeholder="Type Here"
-                            value="{{i.coupon_code}}" maxlength="12" name="coupon_code" id="editCouponCode" pattern="[0-9]*" />
+                            value="{{i.coupon_code}}" maxlength="12" name="coupon_code" id="editCouponCode"/>
                     </div>
                     <div class="row">
                         <div class="col-6">
@@ -517,11 +517,10 @@
                         <label class="form-label">Coupon Banner image</label>
                         <div class="col-12 justify-content-center">
                         {% if i.banner_image and i.banner_image.url %}
-                        <img src="{{ i.banner_image.url }}" alt="Maintenance Mode Image" width="100%"
-                            height="350" class="border border-dashed border-secondary" id="temp_pic-{{i.id}}">
+                        <img src="{{ i.banner_image.url }}" alt="Maintenance Mode Image" width="400px"
+                            height="150px" class="border border-dashed border-secondary" id="temp_pic-{{i.id}}">
                         {% else %}
-                        <img src="{% static 'images/img_default.jpg' %}" alt="Maintenance Mode Image" width="100%"
-                            height="350" class="border border-dashed border-secondary" id="temp_pic-{{i.id}}">
+                        <img src="{% static 'images/img_default.jpg' %}" alt="Maintenance Mode Image" width="400px" height="150px" class="border border-dashed border-secondary" id="temp_pic-{{i.id}}">
                         {% endif %}
                         <p id="imgvalidation1" class="coupon-update-img-size-validation" style="color: red;"></p>
 
@@ -536,10 +535,10 @@
                             User Type
                         </label> 
                         <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                            data-placeholder="All user" data-allow-clear="true" name="discount_for_user" onchange="populate2(this.id,'{{i.id}}')" id="userType_{{i.id}}" data-minimum-results-for-search="Infinity" >
-                            <option value="1" {% if i.discount_for_user_type == 1 %}selected{% endif %}>All user</option>
-                            <option value="2" {% if i.discount_for_user_type == 2 %}selected{% endif %}>Individual Users</option>
-                            <option value="3" {% if i.discount_for_user_type == 3 %}selected{% endif %}>Business Users</option>
+                            data-placeholder="All user" data-allow-clear="true" name="discount_for" onchange="populate2(this.id,'{{i.id}}')" id="userType_{{i.id}}" data-minimum-results-for-search="Infinity" >
+                            <option value="1" {% if i.discount_for_user_type == "1" %}selected{% endif %}>All user</option>
+                            <option value="2" {% if i.discount_for_user_type == "2" %}selected{% endif %}>Individual Users</option>
+                            <option value="3" {% if i.discount_for_user_type == "3" %}selected{% endif %}>Business Users</option>
                         </select>
                     </div>                    
                     <div class="col-12 mt-4" id="select_all_{{i.id}}">
@@ -548,6 +547,9 @@
                         </label>
                             <select class="form-control form-control-solid" data-control="select2"
                             data-placeholder="Select user" data-allow-clear="true" multiple="multiple" name="selected_user">
+                            
+                            <option value="0" {% with a=i.selected_users|literal_eval %}{% if 0 in a and i.discount_for_user_type == "1" %}  selected {% endif %}  {%endwith%}  >Select All</option>
+                            
                             {% for item in user %}
                             <option value="{{ item.id }}"{% with a=i.selected_users|literal_eval %} {% if item.id in a %}  selected{% endif %}    {%endwith%}    >{{ item.full_name }} </option>
                             {% endfor %}
@@ -561,9 +563,12 @@
                      
                         <select class="form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select individual user" data-allow-clear="true" multiple="multiple" name="selected_user">
-                            {% for item in user %}
+                                <option value="0" {% with a=i.selected_users|literal_eval %}{% if 0 in a and i.discount_for_user_type == "2" %}  selected {% endif %}  {%endwith%}  >Select All</option>
+                            
+                                {% for item in user %}
                            
                                 {% if item.user_type == "Individual User"%}
+                               
                                 <option value="{{ item.id }}" {% with a=i.selected_users|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                                 {% endif %}
                            
@@ -577,9 +582,12 @@
                        
                       <select class="form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select Business user" data-allow-clear="true" multiple="multiple" name="selected_user">
-                            {% for item in user %}
+                                <option value="0" {% with a=i.selected_users|literal_eval %}{% if 0 in a and i.discount_for_user_type == "3"  %}  selected {% endif %}  {%endwith%}  >Select All</option>
+                            
+                                {% for item in user %}
                         
                                 {% if item.user_type == "Business User"%}
+                                
                                 <option value="{{ item.id }}" {% with a=i.selected_users|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                                 {% endif %}
                         
@@ -609,9 +617,9 @@
                             <!-- <input type="text" class="form-control form-control-solid" value="{{i.discount_type}}"
                                 placeholder="%Percentage" name="discount_type" /> -->
                                 <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                                    data-placeholder=" " data-allow-clear="true" data-minimum-results-for-search="Infinity" name="discount_for">
-                                    <option value="1">Percentage</option>
-                                    <option value="2">Fixed price</option>
+                                    data-placeholder=" " data-allow-clear="true" data-minimum-results-for-search="Infinity" name="discount_type">
+                                    <option value="percentage">Percentage</option>
+                                    <option value="fixed_price">Fixed price</option>
                                 </select>
                         </div>
                         <div class="col-6 mt-6">
@@ -620,24 +628,22 @@
                                      name="couponrate" 
                                      {% if i.discount_rate %}
                                      value="{{i.discount_rate}}"
-                                     {% endif %}
-                                         
-                                    placeholder="Rate" min="0"/>
+                                     {% endif %} placeholder="Rate" min="0"/>
                             </div>
                         </div>
 
                         <div class="col-6">
                             <label class="form-check-label" for="flexSwitchChecked">
-                                Discount if for
+                                Discount it for
                             </label>
                             <select class="form-select form-select-sm form-select-solid" data-control="select2"
-                                data-placeholder=" " data-allow-clear="true" multiple="multiple" name="discount_for">
+                                data-placeholder=" " data-allow-clear="true" multiple="multiple" name="discount_for_user_type">
                                 <option></option>
                                 <option value="membership" {% if "membership" in i.discount_for %}selected{% endif %}>Membership
                                 </option>
-                                <option value="contract" {% if "contract" in i.discount_for %}selected{% endif %}>Contract
+                                <option value="contracts" {% if "contracts" in i.discount_for %}selected{% endif %}>Contract
                                 </option>
-                                <option value="user" {% if "user" in i.discount_for %}selected{% endif %}>User
+                                <option value="users" {% if "users" in i.discount_for %}selected{% endif %}>User
                                 </option>
                                 <option  value="all" {% if "all" in i.discount_for %}selected{% endif %}>All</option>
             
@@ -721,7 +727,7 @@
         const allowedExtensions = ["png", "jpg", "jpeg", "webp"];
         const maxSize = 2 * 1024 * 1024; // 2MB
         const maxWidth = 400;
-        const maxHeight = 800;
+        const maxHeight = 150;
     
         const file = input.files[0];
         const fileName = file.name.toLowerCase();
@@ -734,9 +740,11 @@
             if (fileSize > maxSize) {
                 displayValidationMessage("File size exceeds 2MB");
                 submitButton.disabled = true; // Disable the submit button
-            } else if (image.width > maxWidth || image.height > maxHeight) {
-                displayValidationMessage("Image dimensions should be 400px X 800px or smaller");
-                submitButton.disabled = true; // Disable the submit button
+            } else if (image.width !== maxWidth && image.height !== maxHeight) {
+                displayValidationMessage("Image dimensions should be 400px X 150px or smaller");
+                submitButton.disabled = true; 
+
+           
             } else if (!allowedExtensions.some(ext => fileName.endsWith(ext))) {
                 displayValidationMessage("Allowed file types are .png, .jpg, .jpeg, .webp");
                 submitButton.disabled = true; // Disable the submit button
@@ -766,7 +774,7 @@
         const allowedExtensions = ["png", "jpg", "jpeg", "webp"];
         const maxSize = 2 * 1024 * 1024; // 2MB
         const maxWidth = 400;
-        const maxHeight = 800;
+        const maxHeight = 100;
 
         const file = input.files[0];
 
@@ -786,8 +794,9 @@
             if (fileSize > maxSize) {
                 displayValidationMessage1(input.closest('.bg-body'), "File size exceeds 2MB");
                 submitButton.disabled = true; 
-            } else if (image.width > maxWidth || image.height > maxHeight) {
-                displayValidationMessage1(input.closest('.bg-body'), "Image dimensions should be 400px X 800px or smaller");
+
+            } else if (image.width !== maxWidth && image.height !== maxHeight) {
+                displayValidationMessage1(input.closest('.bg-body'), "Image dimensions should be 400px X 150px");
                 submitButton.disabled = true; 
             } else if (!allowedExtensions.some(ext => fileName.endsWith(ext))) {
                 displayValidationMessage1(input.closest('.bg-body'), "Allowed file types are .png, .jpg, .jpeg, .webp");
@@ -968,6 +977,7 @@
      }
 </script>
 <!-- validation input coupon per coustomer -->
+
 <!-- date not select before current time -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.6/dist/flatpickr.min.js"></script>

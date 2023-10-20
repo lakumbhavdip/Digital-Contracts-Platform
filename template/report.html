@@ -178,6 +178,7 @@
             <option value="6">Platinum Users</option>
           </select>
           </div>
+          
           <div class=" col-md-2 col-12 pd-2"> </div>
           <div class=" col-md-2 col-12 pd-2"> </div>
           <div class=" col-md-2 col-12 pd-2"> 
@@ -242,7 +243,8 @@
                                 </thead>
                                 <tbody class="fw-semibold text-gray-600">
                                   
-                                {% for i in user %}
+                                {% for i, contract_count,remainig_contract in user_with_contracts %}
+
                                   <tr class="odd" id="chk-th" style="display: none;">
                                     <!-- <td class=" pe-0" value="{{i.id}}">{{i.id}}</td> -->
                                     <td class=" pe-0" value="{{i.id}}">{{forloop.counter}}</td>
@@ -252,8 +254,8 @@
                                     <td class=" pe-0">{{i.civil_id}}</td>
                                     <td class=" pe-0" hidden value="{{i.user_type}}">{{i.user_type}}</td>
                                     <td class=" pe-0" id="memebership-{{i.id}}">{{i.membership_type}}</td>
-                                    <td class=" pe-0">0</td>
-                                    <td class=" pe-0">1</td>
+                                    <td class=" pe-0">{{contract_count}}</td>
+                                    <td class=" pe-0">{{remainig_contract}}</td>
                                     <td class=" pe-0" >{{i.created_at|date:"d-m-Y H:i"}}</td>
                                   </tr>
                                   
@@ -740,9 +742,14 @@
     return (
       filter === "1" ||
       (filter === "2" && membershipText === "free") ||
+      (filter === "2" && membershipText === "Free") ||
+      (filter === "3" && membershipText === "basic") ||
       (filter === "3" && membershipText === "Basic") ||
+      (filter === "4" && membershipText === "premium") ||
       (filter === "4" && membershipText === "Premium") ||
+      (filter === "5" && membershipText === "gold") ||
       (filter === "5" && membershipText === "Gold") ||
+      (filter === "6" && membershipText === "platinum")||
       (filter === "6" && membershipText === "Platinum")
     );
   }

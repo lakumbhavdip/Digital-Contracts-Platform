@@ -25,14 +25,14 @@
                   <div class="mb-0">
                     <label class="form-label">Start Date</label>
                     <input class="form-control form-control-solid" placeholder="Pick date range"
-                      id="kt_daterangepicker_5" name="start_datetime" type="date" />
+                      id="kt_daterangepicker_5" onchange=" filter_invite()" name="start_datetime" type="date" />
                   </div>
                 </div>
                 <div class="col-xl-12 col-md-6 p-1 col-xxl-6">
                   <div class="">
                     <label class="form-label">End Date</label>
                     <input class="form-control form-control-solid" placeholder="Pick date range"
-                      id="kt_daterangepicker_6" name="end_datetime" type="date" />
+                      id="kt_daterangepicker_6" onchange=" filter_invite()" name="end_datetime" type="date" />
                   </div>
                 </div>
               </div>
@@ -45,7 +45,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance1}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="i_free_count">{{user_instance1|length}}</span>
+                    </div>
+                    <div hidden id="i_free">
+                      {% for i in user_instance1 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -58,7 +64,14 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance2}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="i_basic_count">{{user_instance2|length}}</span>
+                    </div>
+
+                    <div hidden id="i_basic">
+                      {% for i in user_instance2 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="info"
                       style="height: 80px; min-height: 80px;">
@@ -71,7 +84,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance3}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="i_premium_count">{{user_instance3|length}}</span>
+                    </div>
+                    <div hidden id="i_premium">
+                      {% for i in user_instance3 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -84,7 +103,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance7}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="i_gold_count">{{user_instance7|length}}</span>
+                    </div>
+                    <div hidden id="i_gold">
+                      {% for i in user_instance7 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -97,7 +122,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance8}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="i_platinum_count">{{user_instance8|length}}</span>
+                    </div>
+                    <div hidden id="i_platinum">
+                      {% for i in user_instance8 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -110,10 +141,10 @@
               <div class="d-flex flex-column w-100 mb-7">
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Free Revenue</h6>
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold"  id="i_free_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar"  id="i_free_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -123,10 +154,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Basic Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold"  id="i_basic_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-info" role="progressbar"  id="i_basic_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -136,10 +167,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Premium Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold"  id="i_premium_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar"  id="i_premium_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -149,10 +180,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Gold Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold"  id="i_gold_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar"  id="i_gold_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
 
                 </div>
@@ -163,10 +194,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Platinum Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="i_platinum_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar"  id="i_platinum_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -175,6 +206,7 @@
               {% endfor %}
             </div>
           </div>
+
           <div class="card">
             <div class="card-header align-items-center border-0">
               <h3 class="card-title align-items-start flex-column">
@@ -185,14 +217,14 @@
                   <div class="mb-0">
                     <label class="form-label">Start Date</label>
                     <input class="form-control form-control-solid" placeholder="Pick date range"
-                      id="kt_daterangepicker_1" name="start_datetime" type="date" />
+                      id="kt_daterangepicker_1" onchange="filter_business()" name="start_datetime" type="date" />
                   </div>
                 </div>
                 <div class="col-xl-12 col-md-6 p-1 col-xxl-6">
                   <div class="">
                     <label class="form-label">End Date</label>
                     <input class="form-control form-control-solid" placeholder="Pick date range"
-                      id="kt_daterangepicker_2" name="end_datetime" type="date" />
+                      id="kt_daterangepicker_2" onchange="filter_business()" name="end_datetime" type="date" />
                   </div>
                 </div>
               </div>
@@ -205,8 +237,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance4}}</span>
+                      <span class="fw-bolder fs-6 text-primary"  id="b_free_count">{{user_instance4|length}}</span>
                     </div>
+                    <div hidden id="b_free">
+                      {% for i in user_instance4 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+                      </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
                     </div>
@@ -218,8 +255,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance5}}</span>
+                      <span class="fw-bolder fs-6 text-primary"  id="b_basic_count">{{user_instance5|length}}</span>
                     </div>
+                    <div hidden id="b_basic">
+                      {% for i in user_instance5 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+                      </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="info"
                       style="height: 80px; min-height: 80px;">
                     </div>
@@ -231,8 +273,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance6}}</span>
+                      <span class="fw-bolder fs-6 text-primary"  id="b_premium_count">{{user_instance6|length}}</span>
                     </div>
+                    <div hidden id="b_premium">
+                      {% for i in user_instance6 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+                      </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
                     </div>
@@ -244,8 +291,13 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance9}}</span>
+                      <span class="fw-bolder fs-6 text-primary"  id="b_gold_count">{{user_instance9|length}}</span>
                     </div>
+                    <div hidden id="b_gold">
+                      {% for i in user_instance9 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
+                      </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
                     </div>
@@ -257,7 +309,12 @@
                   </div>
                   <div class="border border-3 rounded p-1">
                     <div class="flex-grow-1">
-                      <span class="fw-bolder fs-6 text-primary">{{user_instance10}}</span>
+                      <span class="fw-bolder fs-6 text-primary" id="b_platinum_count">{{user_instance10|length}}</span>
+                    </div>
+                    <div hidden id="b_platinum">
+                      {% for i in user_instance10 %}
+                        <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
+                      {%endfor%}
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -320,10 +377,10 @@
               <div class="d-flex flex-column w-100 mb-7">
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Free Revenue</h6>
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="b_free_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar" id="b_free_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -333,10 +390,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Basic Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="b_basic_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-info" role="progressbar"  id="b_basic_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -346,10 +403,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Premium Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="b_premium_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar" id="b_premium_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -359,10 +416,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Gold Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="b_gold_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar" id="b_gold_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
 
                 </div>
@@ -373,10 +430,10 @@
                 <div class="d-flex flex-stack mb-2 justify-content-between">
                   <h6>Platinum Revenue</h6>
                   <!-- <span class="text-muted fs-7 fw-bold">50%</span> -->
-                  <span class="text-muted fs-7 fw-bold">{{ iprtr }}</span>
+                  <span class="text-muted fs-7 fw-bold" id="b_platinum_p">{{ iprtr }}</span>
                 </div>
                 <div class="progress h-6px w-100">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: {{ iprtr }}" aria-valuenow="50"
+                  <div class="progress-bar bg-primary" role="progressbar" id="b_platinum_pp" style="width: {{ iprtr }}" aria-valuenow="50"
                     aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
@@ -971,6 +1028,431 @@
 
 
 
+<!-- for date filter in invite  -->
+<script>
+  function filter_invite(){
+    var startDate = new Date(document.getElementById("kt_daterangepicker_5").value);
+    var endDate = new Date(document.getElementById("kt_daterangepicker_6").value);
+
+    var iFreeDiv = document.getElementById("i_free");
+    var iFreeDivparagraphs = iFreeDiv.getElementsByTagName("p");
+
+    var i_free = 0;
+
+    for (var i = 0; i < iFreeDivparagraphs.length; i++) {
+      var dateColumn = iFreeDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          i_free++;
+        }
+      }
+    }
+
+
+
+
+    var ibasicDiv = document.getElementById("i_basic");
+    var ibasicDivparagraphs = iFreeDiv.getElementsByTagName("p");
+
+    var i_basic = 0;
+
+    for (var i = 0; i < ibasicDivparagraphs.length; i++) {
+      var dateColumn = ibasicDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          i_basic++;
+        }
+      }
+    }
+
+    var ipremiumDiv = document.getElementById("i_premium");
+    var ipremiumDivparagraphs = ipremiumDiv.getElementsByTagName("p");
+
+    var i_premium = 0;
+
+    for (var i = 0; i < ipremiumDivparagraphs.length; i++) {
+      var dateColumn = ipremiumDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          i_premium++;
+        }
+      }
+    }
+
+
+    var igoldDiv = document.getElementById("i_gold");
+    var igoldDivparagraphs = igoldDiv.getElementsByTagName("p");
+
+    var i_gold = 0;
+
+    for (var i = 0; i < igoldDivparagraphs.length; i++) {
+      var dateColumn = igoldDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          i_gold++;
+        }
+      }
+    }
+
+
+
+    var iplatinumDiv = document.getElementById("i_platinum");
+    var iplatinumDivparagraphs = iplatinumDiv.getElementsByTagName("p");
+
+    var i_platinum = 0;
+
+    for (var i = 0; i < iplatinumDivparagraphs.length; i++) {
+      var dateColumn = iplatinumDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          i_platinum++;
+        }
+      }
+    }
+
+    document.getElementById("i_free_count").textContent = i_free;
+    document.getElementById("i_basic_count").textContent = i_basic;
+    document.getElementById("i_premium_count").textContent = i_premium;
+    document.getElementById("i_gold_count").textContent = i_gold;
+    document.getElementById("i_platinum_count").textContent = i_platinum;
+    var total = i_free + i_basic + i_premium + i_gold + i_platinum;
+    var percent_i_free = (i_free / total) * 100;
+    var percent_i_basic = (i_basic / total) * 100;
+    var percent_i_premium = (i_premium / total) * 100;
+    var percent_i_gold = (i_gold / total) * 100;
+    var percent_i_platinum = (i_platinum / total) * 100;
+    if (total==0){
+      percent_i_free=0
+      percent_i_basic=0
+      percent_i_premium=0
+      percent_i_gold=0
+      percent_i_platinum=0
+      document.getElementById("i_free_p").textContent = percent_i_free;
+      document.getElementById("i_basic_p").textContent = percent_i_basic;
+      document.getElementById("i_premium_p").textContent = percent_i_premium;
+      document.getElementById("i_gold_p").textContent = percent_i_gold;
+      document.getElementById("i_platinum_p").textContent = percent_i_platinum;
+
+      document.getElementById("i_free_pp").style.width =  percent_i_free+ "%";
+      document.getElementById("i_basic_pp").style.width = percent_i_basic+ "%";
+      document.getElementById("i_premium_pp").style.width = percent_i_premium+ "%";
+      document.getElementById("i_gold_pp").style.width = percent_i_gold+ "%";
+      document.getElementById("i_platinum_pp").style.width = percent_i_platinum+ "%";
+    }else{
+      document.getElementById("i_free_p").textContent = Math.round(percent_i_free);
+      document.getElementById("i_basic_p").textContent = Math.round(percent_i_basic);
+      document.getElementById("i_premium_p").textContent = Math.round(percent_i_premium);
+      document.getElementById("i_gold_p").textContent = Math.round(percent_i_gold);
+      document.getElementById("i_platinum_p").textContent = Math.round(percent_i_platinum);
+
+      document.getElementById("i_free_pp").style.width =  percent_i_free + "%";
+      document.getElementById("i_basic_pp").style.width = percent_i_basic + "%";
+      document.getElementById("i_premium_pp").style.width = percent_i_premium + "%";
+      document.getElementById("i_gold_pp").style.width = percent_i_gold + "%";
+      document.getElementById("i_platinum_pp").style.width = percent_i_platinum + "%";
+    }
+  }
+</script>
+
+
+
+<!-- for date filter in invite  -->
+<script>
+  function filter_business(){
+    var startDate = new Date(document.getElementById("kt_daterangepicker_1").value);
+    var endDate = new Date(document.getElementById("kt_daterangepicker_2").value);
+
+    var bFreeDiv = document.getElementById("b_free");
+    var bFreeDivparagraphs = bFreeDiv.getElementsByTagName("p");
+
+    var b_free = 0;
+
+    for (var i = 0; i < bFreeDivparagraphs.length; i++) {
+      var dateColumn = bFreeDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          b_free++;
+        }
+      }
+    }
+
+
+
+
+    var bbasicDiv = document.getElementById("b_basic");
+    var bbasicDivparagraphs = bbasicDiv.getElementsByTagName("p");
+
+    var b_basic = 0;
+
+    for (var i = 0; i < bbasicDivparagraphs.length; i++) {
+      var dateColumn = bbasicDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          b_basic++;
+        }
+      }
+    }
+
+    var bpremiumDiv = document.getElementById("b_premium");
+    var bpremiumDivparagraphs = bpremiumDiv.getElementsByTagName("p");
+
+    var b_premium = 0;
+
+    for (var i = 0; i < bpremiumDivparagraphs.length; i++) {
+      var dateColumn = bpremiumDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          b_premium++;
+        }
+      }
+    }
+
+
+    var bgoldDiv = document.getElementById("b_gold");
+    var bgoldDivparagraphs = bgoldDiv.getElementsByTagName("p");
+
+    var b_gold = 0;
+
+    for (var i = 0; i < bgoldDivparagraphs.length; i++) {
+      var dateColumn = bgoldDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          b_gold++;
+        }
+      }
+    }
+
+
+
+    var bplatinumDiv = document.getElementById("b_platinum");
+    var bplatinumDivparagraphs = bplatinumDiv.getElementsByTagName("p");
+
+    var b_platinum = 0;
+
+    for (var i = 0; i < bplatinumDivparagraphs.length; i++) {
+      var dateColumn = bplatinumDivparagraphs[i];
+
+
+
+      if (dateColumn) {
+        
+        var dateParts = dateColumn.innerText.split(' ');
+       
+        var dateParts2 = dateParts[0].split('-');
+        if (dateParts[1]){
+        var timeParts = dateParts[1].split(':');
+        }
+        var day = parseInt(dateParts2[0]);
+        var month = parseInt(dateParts2[1]) - 1; // Months are zero-based
+        var year = parseInt(dateParts2[2]);
+        var hour = parseInt(timeParts[0]);
+        var minute = parseInt(timeParts[1]);
+  
+        var dateValue = new Date(year, month, day, hour, minute);
+        if (dateValue >= startDate && dateValue <= endDate) {
+          b_platinum++;
+        }
+      }
+    }
+
+    document.getElementById("b_free_count").textContent = b_free;
+    document.getElementById("b_basic_count").textContent = b_basic;
+    document.getElementById("b_premium_count").textContent = b_premium;
+    document.getElementById("b_gold_count").textContent = b_gold;
+    document.getElementById("b_platinum_count").textContent = b_platinum;
+    var total = b_free + b_basic + b_premium + b_gold + b_platinum;
+    var percent_b_free = (b_free / total) * 100;
+    var percent_b_basic = (b_basic / total) * 100;
+    var percent_b_premium = (b_premium / total) * 100;
+    var percent_b_gold = (b_gold / total) * 100;
+    var percent_b_platinum = (b_platinum / total) * 100;
+    if (total==0){
+      percent_b_free=0
+      percent_b_basic=0
+      percent_b_premium=0
+      percent_b_gold=0
+      percent_b_platinum=0
+      document.getElementById("b_free_p").textContent = percent_b_free;
+      document.getElementById("b_basic_p").textContent = percent_b_basic;
+      document.getElementById("b_premium_p").textContent = percent_b_premium;
+      document.getElementById("b_gold_p").textContent = percent_b_gold;
+      document.getElementById("b_platinum_p").textContent = percent_b_platinum;
+
+      document.getElementById("b_free_pp").style.width =  percent_b_free+ "%";
+      document.getElementById("b_basic_pp").style.width = percent_b_basic+ "%";
+      document.getElementById("b_premium_pp").style.width = percent_b_premium+ "%";
+      document.getElementById("b_gold_pp").style.width = percent_b_gold+ "%";
+      document.getElementById("b_platinum_pp").style.width = percent_b_platinum+ "%";
+    }else{
+      document.getElementById("b_free_p").textContent = Math.round(percent_b_free);
+      document.getElementById("b_basic_p").textContent = Math.round(percent_b_basic);
+      document.getElementById("b_premium_p").textContent = Math.round(percent_b_premium);
+      document.getElementById("b_gold_p").textContent = Math.round(percent_b_gold);
+      document.getElementById("b_platinum_p").textContent = Math.round(percent_b_platinum);
+
+      document.getElementById("b_free_pp").style.width =  percent_b_free + "%";
+      document.getElementById("b_basic_pp").style.width = percent_b_basic + "%";
+      document.getElementById("b_premium_pp").style.width = percent_b_premium + "%";
+      document.getElementById("b_gold_pp").style.width = percent_b_gold + "%";
+      document.getElementById("b_platinum_pp").style.width = percent_b_platinum + "%";
+    }
+  }
+</script>
+
+
 
 <!-- validation message in input -->
 <script>
@@ -1138,5 +1620,8 @@
 
   configureDateRange("kt_daterangepicker_5", "kt_daterangepicker_6");
 </script>
+
+
+
 
 {% include "footer.html" %}

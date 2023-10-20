@@ -527,11 +527,11 @@
                                                 <td class="border-end  border-gray-400 ps-2">Contracts</td>
                                                 <td class="border-end  border-gray-400 "> <input type="number" class="border-0 contractinput" placeholder="0" min="0" value="" name="custompackageinput" required /></td>
                                                 <td class="border-end  border-gray-400 ">X</td>
-                                                <td class="border-end  border-gray-400 ">KD <span id="cp_value">{{c_p}}</span></td>
+                                                <td class="border-end  border-gray-400 ">KD <span id="cp_value">{{ c_p|floatformat:2 }}</span></td>
                                                 <input type="hidden" name="percontract" value="{{c_p}}">
                             
                                                 <td class="border-end  border-gray-400 ">=</td>
-                                                <td class="border-end  border-gray-400 ">KD <span class="totalcontract" name="totalprice"> 0.000 </span></td>
+                                                <td class="border-end  border-gray-400 ">KD <span class="totalcontract" name="totalprice"> 0.00 </span></td>
                             
                                                 
                                             </tr>
