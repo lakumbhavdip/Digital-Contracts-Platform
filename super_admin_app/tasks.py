@@ -6,5 +6,5 @@ from django.utils import timezone
 def task_fun(self):
     for i in range(10):
         print(i)
-        print("----------------------------------------------")
+      
     return "done"

@@ -480,12 +480,12 @@
                                 <div class="col-6">
                                     <label for="exampleFormControlInput1" class="form-label">Contract Price</label>
                                     <input type="text" name="contract-price" class="form-control form-control-solid w-50"
-                                        placeholder="Enter SMTP Hostname"  value="{{stg.contracts_price}}" />
+                                        placeholder="Enter SMTP Hostname"  value="{{stg.contracts_price|floatformat:2}}" />
                                 </div>
                                 <div class="col-6">
                                     <label for="exampleFormControlInput1" class="form-label">User Price</label>
                                     <input type="text" name="user-price" class="form-control form-control-solid w-50"
-                                        placeholder="Enter SMTP Port" value="{{stg.users_price}}" />
+                                        placeholder="Enter SMTP Port" value="{{stg.users_price|floatformat:2}}" />
                                 </div>
                             </div>
                            

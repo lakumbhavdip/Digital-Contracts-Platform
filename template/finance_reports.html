@@ -219,8 +219,8 @@
                       <!-- <td class=" pe-0">{{f_r.id}}</td> -->
                       <td class=" pe-0">{{forloop.counter}}</td>
                       <td class=" pe-0">{{f_r.user}}</td>
-                      <td class=" pe-0">{{f_r.payment_amount}}</td>
-                      <td class=" pe-0">{{f_r.discount_amount}}</td>
+                      <td class=" pe-0">{{f_r.payment_amount|floatformat:2}}</td>
+                      <td class=" pe-0">{{f_r.discount_amount|floatformat:2}}</td>
                       <td class=" pe-0">{{f_r.payment_method}}</td>
                       <td class=" pe-0">{{f_r.payment_type|title }}</td>
                       <td class=" pe-0">{{f_r.tr_id}}</td>

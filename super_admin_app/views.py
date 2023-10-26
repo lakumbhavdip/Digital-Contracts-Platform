@@ -114,6 +114,19 @@ def home(request):
     
         totaluser = ind_free.count() + ind_basic.count() + ind_pre.count() + ind_gold.count() + ind_pla.count()
         totaluser1 = buss_free.count() + buss_basic.count() + buss_pre.count() + buss_gold.count() + buss_pla.count()
+        
+        with_coupon = Payment.objects.filter(Q(Q(discount_type="percentage") | Q(discount_type="fixed_price")) & Q(payment_status="success"))
+        result = with_coupon.aggregate(total_net_amount=Sum('net_amount'))
+        with_coupon_total_net_amount = float(result['total_net_amount']) if result['total_net_amount'] is not None else 0.0
+        
+        without_coupon = Payment.objects.filter(discount_type=None,payment_status="success") 
+        result1 = without_coupon.aggregate(total_net_amount=Sum('net_amount'))
+        without_coupon_total_net_amount = float(result1['total_net_amount']) if result1['total_net_amount'] is not None else 0.0
+
+            
+        discount_from_coupon = Payment.objects.filter(payment_status="success")
+        discount_from_coupon_result = discount_from_coupon.aggregate(total_discount_amount=Sum('discount_amount'))
+        discount_from_coupon_results = discount_from_coupon_result['total_discount_amount']
 
         try:
             if totaluser != 0:
@@ -134,6 +147,9 @@ def home(request):
         context = {
         
             "super_users": super_users,
+            "with_coupon_total_net_amount": with_coupon_total_net_amount,
+            "without_coupon_total_net_amount": without_coupon_total_net_amount,
+            "discount_from_coupon_results": discount_from_coupon_results,
             "username": username,
             "userimage": userimage,
             "user_instance1": ind_free,
@@ -1008,7 +1024,7 @@ def user_individual_custom_package(request):
                 }
             try:
                 response = requests.post(api_url, json=payload, headers=headers)
-
+                
                 if response.status_code == 200:
                     api_data = response.json()
                     payment_url = api_data.get("data", {}).get("payment_url")
@@ -1061,6 +1077,7 @@ def user_individual_upgrade_membership(request):
         if request.method == "POST":
             uid = request.POST.get("uid") 
             user_instance = Users.objects.get(pk=uid)
+            
             memnameinput = request.POST.get("memnameinput") 
             mem_instance = Membership.objects.get(pk=memnameinput)
             start_date_str = request.POST.get("start_datetime") 
@@ -1084,6 +1101,7 @@ def user_individual_upgrade_membership(request):
                 rp = "True"
                 # Fetch the user and token
                 try:
+                  
                     # user = User.objects.get(username=user_instance.username)
                     token = Token.objects.get(user=uid)
                     token_value = token.key
@@ -1106,10 +1124,18 @@ def user_individual_upgrade_membership(request):
                         api_data = response.json()
                         
                         payment_url = api_data.get("data", {}).get("payment_url")
-                        
                         # Send payment URL in email
-                        subject = "Payment Initiated for Membership"
+                        subject = "Upgrade Your Membership - Payment Link"
                         body = f"Payment has been initiated for your contract. Please proceed to make the payment by clicking the following link: {payment_url}"
+                        
+                        body = format_html(
+                            
+                            '<p> Upgrade your membership to access exclusive benefits and premium content. To complete the process, please click the link below to make your payment. </p>'
+                            f'<a href="{payment_url}">Payment Link</a>'
+                            '<p>If you have any questions or need further assistance, please do not hesitate to reach out to our support team.</p>'
+                            '<p>Thank you for choosing our services! We look forward to serving you.</p>'
+                        )
+                         
                         recipient_email = user_instance.email
 
                         send_email_test(subject, body, recipient_email)
@@ -2425,7 +2451,7 @@ def finance_reports(request):
         #     userimage = None
         # user = Users.objects.get(id=user_id)
         # userimage = user.image
-        f_reports = Payment.objects.all()
+        f_reports = Payment.objects.all().order_by('-pk')
         c_reports = Payment.objects.filter(payment_type="contracts")
         u_reports = Payment.objects.filter(payment_type="users")
         b_m_reports = Payment.objects.filter(Q(payment_type="membership") & (Q(membership="2") | Q(membership="5")))

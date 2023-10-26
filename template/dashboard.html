@@ -51,7 +51,6 @@
                       {% for i in user_instance1 %}
                         <p>{{i.created_at|date:"d-m-Y H:i"}}</p>
                       {%endfor%}
-
                     </div>
                     <div class="mixed-widget-7-chart card-rounded-bottom" data-kt-chart-color="primary"
                       style="height: 80px; min-height: 80px;">
@@ -452,7 +451,7 @@
                     <div>
                       <span class="fs-8">Sales with</span>
                       <span class="fs-8 d-block">coupons</span>
-                      <span class="fs-3 fw-bolder d-block">2342</span>
+                      <span class="fs-4 fw-bolder d-block">KD {{with_coupon_total_net_amount|floatformat:2}}</span>
                     </div>
                   </div>
                 </div>
@@ -463,7 +462,7 @@
                     <div>
                       <span class="fs-8">Sales without</span>
                       <span class="fs-8 d-block">coupons</span>
-                      <span class="fs-3 fw-bolder d-block">2536</span>
+                      <span class="fs-4 fw-bolder d-block">KD {{without_coupon_total_net_amount|floatformat:2}}</span>
                     </div>
                   </div>
                 </div>
@@ -474,7 +473,7 @@
                     <div>
                       <span class="fs-8">Net revenue with</span>
                       <span class="fs-8 d-block">Net coupons</span>
-                      <span class="fs-3 fw-bolder d-block">KD 4536</span>
+                      <span class="fs-4 fw-bolder d-block">KD 4536</span>
                     </div>
                   </div>
                 </div>
@@ -485,7 +484,7 @@
                     <div>
                       <span class="fs-8">Discount from</span>
                       <span class="fs-8 d-block">coupons</span>
-                      <span class="fs-3 fw-bolder d-block">KD 768</span>
+                      <span class="fs-4 fw-bolder d-block">KD {{discount_from_coupon_results|floatformat:2}}</span>
                     </div>
                   </div>
                 </div>
