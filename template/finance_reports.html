@@ -16,8 +16,7 @@
           </div>
           <!--end::Page title-->
           <!--begin::Actions-->
-          <div class="d-flex align-items-center gap-2 gap-lg-3">
-          </div>
+          <div class="d-flex align-items-center gap-2 gap-lg-3"></div>
           <!--end::Actions-->
         </div>
         <!--end::Toolbar container-->
@@ -49,7 +48,6 @@
                   data-kt-countup-prefix="$" data-kt-initialized="1">Total Revenue</div>
               </div>
               <!--end::Number-->
-
             </div>
             <!--end::Stat-->
             <!--begin::Stat-->
@@ -64,7 +62,6 @@
                   data-kt-initialized="1">Basic Package Revenue</div>
               </div>
               <!--end::Number-->
-
             </div>
             <!--end::Stat-->
             <!--begin::Stat-->
@@ -105,7 +102,6 @@
               <!--end::Number-->
             </div>
           </div>
-
           <div class="row user_blocks d-flex p-5">
             <div
               class="col-2 border border-gray-300 bg-white border-dashed border-secondary rounded min-w-245px py-3 px-4 me-6 mb-3">
@@ -168,13 +164,12 @@
               <!--end::Number-->
             </div>
           </div>
-
           <div class="d-flex  justify-content-end ">
             <div class="mb-0 p-3">
               <a id="kt_drawer_chat_toggle_1" class="btn btn-sm btn-primary " onclick="exportToExcel1()">Download</a>
             </div>
           </div>
-          <div class="d-flex  justify-content-end ">
+          <div class="d-flex">
             <div id="kt_ecommerce_report_sales_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
               <div class="table-responsive">
                 <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
@@ -219,10 +214,10 @@
                       <!-- <td class=" pe-0">{{f_r.id}}</td> -->
                       <td class=" pe-0">{{forloop.counter}}</td>
                       <td class=" pe-0">{{f_r.user}}</td>
-                      <td class=" pe-0">{{f_r.payment_amount}}</td>
-                      <td class=" pe-0">{{f_r.discount_amount}}</td>
+                      <td class=" pe-0">{{f_r.payment_amount|floatformat:2}}</td>
+                      <td class=" pe-0">{{f_r.discount_amount|floatformat:2}}</td>
                       <td class=" pe-0">{{f_r.payment_method}}</td>
-                      <td class=" pe-0">{{f_r.purchase_id}}</td>
+                      <td class=" pe-0">{{f_r.payment_type|title }}</td>
                       <td class=" pe-0">{{f_r.tr_id}}</td>
                       <td class=" pe-0">{{f_r.payment_status}}</td>
                       <td class=" pe-0">{{f_r.created_at | date:'d-m-Y'}}</td>
@@ -231,7 +226,6 @@
                   </tbody>
                 </table>
               </div>
-
             </div>
           </div>
         </div>
@@ -247,118 +241,118 @@
         </svg>
       </span>
     </div>
+  </div>
+</div>
 
-    <script>
-      ClassicEditor
-        .create(document.querySelector('#ckeditor_1'))
-        .then(editor => {
-          console.log(editor);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      ClassicEditor
-        .create(document.querySelector('#ckeditor_2'))
-        .then(editor => {
-          console.log(editor);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      ClassicEditor
-        .create(document.querySelector('#ckeditor_3'))
-        .then(editor => {
-          console.log(editor);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    </script>
-    <script>
-      // $(document).ready(function () {
-      //     $(".companyform").click(function () {
-      //         var test = $(this).val();
-      //         if(test =='yes'){
-      //             $("div.desc2").hide();
-      //             $("div.desc1").show();
-      //         }else{
-      //             $("div.desc1").hide();
-      //             $("div.desc2").show();
+<script>
+  ClassicEditor
+    .create(document.querySelector('#ckeditor_1'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor
+    .create(document.querySelector('#ckeditor_2'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  ClassicEditor
+    .create(document.querySelector('#ckeditor_3'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+</script>
+<script>
+  // $(document).ready(function () {
+  //     $(".companyform").click(function () {
+  //         var test = $(this).val();
+  //         if(test =='yes'){
+  //             $("div.desc2").hide();
+  //             $("div.desc1").show();
+  //         }else{
+  //             $("div.desc1").hide();
+  //             $("div.desc2").show();
 
-      //         }
-      //     });
-      // });
-      $("#business-tab").click(function () {
-        $("div#myTabContent1").hide();
-        $("div#myTabContent2").show();
-      });
-      $("#individual-tab").click(function () {
-        $("div#myTabContent1").show();
-        $("div#myTabContent2").hide();
-      });
-      $(document).ready(function () {
-        $('#addresstype').on('change', function () {
-          var demovalue = $(this).val();
-          $("div.myDiv").hide();
-          $("#show" + demovalue).show();
-        });
-        $('#addresstype1').on('change', function () {
-          var demovalue1 = $(this).val();
-          $("div.myDiv1").hide();
-          $("#show" + demovalue1).show();
-        });
-      });
-      // var profileborder = "border-danger";
-      $(".userprofile").addClass("border-danger");
-      // function changeuserborder() {
-      //     $(".userprofile").removeClass(profileborder);
-      //     var profileborder = "border-success";
-      // }
-      $("#userheaderchange").click(function () {
-        $(".userprofile").removeClass("border-danger");
-        $(".userprofile").addClass("border-success");
-        $("#headererror").addClass("d-none");
+  //         }
+  //     });
+  // });
+  $("#business-tab").click(function () {
+    $("div#myTabContent1").hide();
+    $("div#myTabContent2").show();
+  });
+  $("#individual-tab").click(function () {
+    $("div#myTabContent1").show();
+    $("div#myTabContent2").hide();
+  });
+  $(document).ready(function () {
+    $('#addresstype').on('change', function () {
+      var demovalue = $(this).val();
+      $("div.myDiv").hide();
+      $("#show" + demovalue).show();
+    });
+    $('#addresstype1').on('change', function () {
+      var demovalue1 = $(this).val();
+      $("div.myDiv1").hide();
+      $("#show" + demovalue1).show();
+    });
+  });
+  // var profileborder = "border-danger";
+  $(".userprofile").addClass("border-danger");
+  // function changeuserborder() {
+  //     $(".userprofile").removeClass(profileborder);
+  //     var profileborder = "border-success";
+  // }
+  $("#userheaderchange").click(function () {
+    $(".userprofile").removeClass("border-danger");
+    $(".userprofile").addClass("border-success");
+    $("#headererror").addClass("d-none");
 
-      });
-    </script>
-    <script>
-      $.fn.equalHeights = function () {
-        var max_height = 0;
-        $(this).each(function () {
-          max_height = Math.max($(this).height(), max_height);
-        });
-        $(this).each(function () {
-          $(this).height(max_height);
-        });
-      };
+  });
+</script>
+<script>
+  $.fn.equalHeights = function () {
+    var max_height = 0;
+    $(this).each(function () {
+      max_height = Math.max($(this).height(), max_height);
+    });
+    $(this).each(function () {
+      $(this).height(max_height);
+    });
+  };
 
-      $(document).ready(function () {
-        $('.userdasboardbox ul li a .card').equalHeights();
-      });
-    </script>
-    <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-    <script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
-    <script>
-      function exportToExcel1() {
-          const table = document.getElementById('kt_ecommerce_report_sales_table_financereportmytable');
-          const wb = XLSX.utils.table_to_book(table, { sheet: 'SheetJS' });
-          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-  
-          function s2ab(s) {
-              const buf = new ArrayBuffer(s.length);
-              const view = new Uint8Array(buf);
-              for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
-              return buf;
-          }
-  
-          const fileName = 'table_data.xlsx';
-          saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), fileName);
+  $(document).ready(function () {
+    $('.userdasboardbox ul li a .card').equalHeights();
+  });
+</script>
+<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://unpkg.com/file-saver/dist/FileSaver.min.js"></script>
+<script>
+  function exportToExcel1() {
+      const table = document.getElementById('kt_ecommerce_report_sales_table_financereportmytable');
+      const wb = XLSX.utils.table_to_book(table, { sheet: 'SheetJS' });
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+      function s2ab(s) {
+          const buf = new ArrayBuffer(s.length);
+          const view = new Uint8Array(buf);
+          for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+          return buf;
       }
-    </script>
-  
 
-    
+      const fileName = 'table_data.xlsx';
+      saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), fileName);
+  }
+</script>
+   
 <!-- datatable -->
 <script>
   $(document).ready(function() {

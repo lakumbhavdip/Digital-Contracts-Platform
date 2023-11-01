@@ -20,7 +20,6 @@ def profile_detail(request):
             img = i.image
             media_path = img.path if img else None
             file_exists = os.path.exists(media_path)
-
             password = i.password
         
         data = {

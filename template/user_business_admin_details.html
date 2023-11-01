@@ -415,11 +415,11 @@
                                     <td class="border-end  border-gray-400 ps-2">Contracts</td>
                                     <td class="border-end  border-gray-400 "> <input type="number" class="border-0 contractinput" placeholder="0" min="0" value="" name="custompackageinput" required /></td>
                                     <td class="border-end  border-gray-400 ">X</td>
-                                    <td class="border-end  border-gray-400 ">KD <span id="cp_value">{{c_p}}</span></td>
+                                    <td class="border-end  border-gray-400 ">KD <span id="cp_value">{{c_p|floatformat:2}}</span></td>
                                     <input type="hidden" name="percontract" value="{{c_p}}">
                 
                                     <td class="border-end  border-gray-400 ">=</td>
-                                    <td class="border-end  border-gray-400 ">KD <span class="totalcontract" name="totalprice"> 0.000 </span></td>
+                                    <td class="border-end  border-gray-400 ">KD <span class="totalcontract" name="totalprice"> 0.00 </span></td>
                 
                                     
                                 </tr>
@@ -457,13 +457,12 @@
                                     <td class="border-end  border-gray-400 ps-2">Users</td>
                                     <td class="border-end  border-gray-400 "> <input type="number" class="border-0 userinput" placeholder="0" min="0" value="" name="usercustompackageinput" required /></td>
                                     <td class="border-end  border-gray-400 ">X</td>
-                                    <td class="border-end  border-gray-400 ">KD <span id="ucp_value">{{u_p}}</span></td>
+                                    <td class="border-end  border-gray-400 ">KD <span id="ucp_value">{{u_p|floatformat:2}}</span></td>
                                     <input type="hidden" name="peruser" value="{{u_p}}">
                 
                                     <td class="border-end  border-gray-400 ">=</td>
-                                    <td class="border-end  border-gray-400 ">KD <span class="totaluser" name="totalprice"> 0.000 </span></td>
+                                    <td class="border-end  border-gray-400 ">KD <span class="totaluser" name="totalprice"> 0.00 </span></td>
                 
-                                    
                                 </tr>
                                 <tr class="border-bottom  border-gray-400 ">
                                     <td class="border-end  border-gray-400 "></td>

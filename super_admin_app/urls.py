@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 app_name = 'superadminapp'
 
 urlpatterns = [
+    
     path('', views.login, name='login'),
     path('temp_update/<int:templateid>/', views.template_update, name='Template_Update'),
     path('template_create_second/<int:templateid>/', views.template_create_second, name='Template_Create_Second'),
@@ -49,6 +50,7 @@ urlpatterns = [
     path('company_setting_setting/', views.company_setting_setting, name='Company_Setting'),
     path('my_fatoorah_payment_gateway_setting/', views.my_fatoorah_payment_gateway_setting, name='My_Fatoorah_Payment_Gateway_Setting'),
     path('smtp_fcm_setting/', views.smtp_fcm_setting, name='Smtp_Fcm_Setting'),
+    path('paci_authantication/', views.paci_authantication, name='Paci Authantication'),
     path('contract_user_price_setting/', views.contract_user_price_setting, name='Contract_User_price_Setting'),
     path('payment_gateway_setting/', views.payment_gateway_setting, name='Payment_Gateway_Setting'),
     path('email_template/', views.email_template_setting, name='Email_Template'),

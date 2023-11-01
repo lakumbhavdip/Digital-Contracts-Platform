@@ -1243,13 +1243,13 @@ class CouponApplyView(APIView):
             return Response({'status': 400, 'message': 'Coupon has expired.'}, status=status.HTTP_200_OK)
 
         # Check if the coupon is valid for the purchase_type
-        if coupon.discount_for != purchase_type and coupon.discount_for != 'all':
+        if coupon.discount_for != purchase_type and  'all' not in coupon.discount_for :
             message = format_lazy("Coupon is not valid for {} purchase.", purchase_type)
             return Response({'status': 400, 'message': message}, status=status.HTTP_200_OK)
 
         # Check if the coupon is valid for the user (if coupon is for selected users)
         user_id = request.user.id  # Get the user ID from the request, adjust this based on your authentication setup
-        if coupon.selected_users != 'all' and str(user_id) not in coupon.selected_users.split(','):
+        if "0" not in coupon.selected_users  and str(user_id) not in coupon.selected_users.split(','):
             return Response({'status': 400, 'message': 'Coupon is not valid for this user.'}, status=status.HTTP_200_OK)
 
         # Check the total number of coupon usages and user-wise usage
@@ -1291,8 +1291,8 @@ class CouponApplyView(APIView):
 
         # Calculate the coupon discount based on discount type
         if coupon.discount_type == 'percentage':
-            discount_amount = (total_amount * coupon.discount_percentage) / Decimal('100')
-        elif coupon.discount_type == 'amount':
+            discount_amount = (total_amount * coupon.discount_rate) / Decimal('100')
+        elif coupon.discount_type == 'fixed_price':
             discount_amount = coupon.value
         else:
             return Response({'status': 400, 'message': 'Invalid discount type.'}, status=status.HTTP_200_OK)

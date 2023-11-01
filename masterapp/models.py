@@ -75,7 +75,9 @@ class GeneralSettings(models.Model):
     fcm_server_key = models.CharField(max_length=500,null=True)
     web_panel_header_logo_arabic = models.ImageField(upload_to='setting_pic',blank=True,null=True)
     login_page_logo_arabic = models.ImageField(upload_to='setting_pic',blank=True,null=True)
-    
+    paci_recall_time  = models.IntegerField(null=True)
+    paci_expire_time = models.IntegerField(null=True)
+
     class Meta: 
         db_table = 'general_settings'
 
@@ -286,11 +288,11 @@ class Coupon(models.Model):
     coupon_details = models.TextField(null=True)   
     coupon_details_arabic = models.TextField(null=True)   
     DISCOUNT_TYPE_CHOICES = [
-        ('Amount','amount'),
+        ('Fixed Price','fixed_price'),
         ('Percentage','percentage')
     ]
     
-    discount_type = models.CharField(max_length=10,choices=DISCOUNT_TYPE_CHOICES,null = True)# Additional
+    discount_type = models.CharField(max_length=20,choices=DISCOUNT_TYPE_CHOICES,null = True)# Additional
     DISCOUNT_FOR_CHOICES = [
         ('membership', 'Membership'),
         ('contracts', 'Contracts'),
@@ -299,10 +301,10 @@ class Coupon(models.Model):
     ]    #Additional: 
     discount_for = models.CharField(max_length=100, choices=DISCOUNT_FOR_CHOICES, null= True)
     discount_for_user_type = models.CharField(max_length=50,null=True)
-    value = models.DecimalField(max_digits=10, decimal_places=2,null=True)
-    alert = models.BooleanField(null= True)
+    # value = models.DecimalField(max_digits=10, decimal_places=2,null=True)
+    # alert = models.BooleanField(null= True)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2,null=True)
-    selected_users = models.CharField(max_length=100,null = True)
+    selected_users = models.TextField(null = True)
     discount_rate = models.DecimalField(max_digits=5,decimal_places=2,null=True)
 
     class Meta:

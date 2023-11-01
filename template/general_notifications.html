@@ -99,9 +99,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                            
-                <!-- </div> -->
+                        <!-- </div> -->
                     </td>
                 </tr>
                 
@@ -177,7 +175,7 @@
                         onchange="try{setCustomValidity('')}catch(e){}" required></textarea>
                     </div>
                     <label class="form-label mt-5">Notification image</label>
-                     <p id="not-create-img-size-validation" style="color: red;">Allowed files .png, .jpg, .jpeg, .webp | Image size : 400px X 800px | Max 2MB.</p>
+                     <p id="not-create-img-size-validation" style="color: red;">Allowed files .png, .jpg, .jpeg, .webp | Image size : 400px X 100px | Max 2MB.</p>
                     <img src="{% static 'images/img_default.jpg' %}" alt="Maintenance Mode Image" class="border border-dashed border-secondary" id="temp_pic" width="400" height="200"> <br>
 
                     <input type="file" id="new_imageInput" name="notificationimage" accept="image/*" style="display: none;" required>
@@ -230,7 +228,6 @@
                             {% endfor %}
                         </select>
                     </div>
-
 
                     <div class="col-12 mt-4" id="Business_Users" style="display: none;" >
                         <label class="form-check-label" for="individualUserSelect">
@@ -352,7 +349,7 @@
                         <label for="exampleFormControlInput1" class="form-label">Message (عربي)</label>
                         <textarea type="text" class="form-control form-control-solid w-100 text-right" required rows="4" name="notifications_message_arabic" >{{ i.message_arabic }}</textarea>
                     </div>
-                    <p id="not-update-img-size-validation" class="not-update-img-size-validation" style="color: red;">Allowed files .png, .jpg, .jpeg, .webp | Image size : 400px X 800px | Max 2MB.</p>
+                    <p id="not-update-img-size-validation" class="not-update-img-size-validation" style="color: red;"></p>
                     {% if i.image and i.image.url %}
                     <img src="{{ i.image.url }}" alt="Notifications Image" width="400"
                         height="200"  class="border border-dashed border-secondary p-25" id="not_pic-{{i.id}}">
@@ -384,7 +381,10 @@
                         </label>
                             <select class="form-select form-control form-control-solid" data-control="select2"
                             data-placeholder="Select user" data-allow-clear="true" multiple="multiple" name="selected_user">
-                            {% for item in user     %}
+                          
+                            <option value="0" {% with a=i.user_ids|literal_eval %}{% if 0 in a and i.user_type == "1" %}  selected {% endif %}  {%endwith%}  >Select All</option>
+                       
+                            {% for item in user %}
                             <option value="{{ item.id }}"{% with a=i.user_ids|literal_eval %} {% if item.id in a %}  selected{% endif %}    {%endwith%}    >{{ item.full_name }} </option>
                             {% endfor %}
                             <!-- {%for item in subuser%}
@@ -400,7 +400,8 @@
                         </label>
                         <select class="form-select form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select individual user" data-allow-clear="true" multiple="multiple" name="selected_user">
-                                
+                               
+                            <option value="0" {% with a=i.user_ids|literal_eval %}{% if 0 in a and i.user_type == "2" %}  selected {% endif %}  {%endwith%}  >Select All</option>
                             {% for item in user %}
                                 {% if item.user_type == "Individual User"%}
                                 <option value="{{ item.id }}" {% with a=i.user_ids|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
@@ -417,12 +418,12 @@
                         </label>
                       <select class="form-select form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select Business user" data-allow-clear="true" multiple="multiple" name="selected_user">
+
+                            <option value="0" {% with a=i.user_ids|literal_eval %}{% if 0 in a and i.user_type == "3" %}  selected {% endif %}  {%endwith%}  >Select All</option>
                             {% for item in user %}
-                        
                                 {% if item.user_type == "Business User"%}
                                 <option value="{{ item.id }}" {% with a=i.user_ids|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                                 {% endif %}
-                        
                             {% endfor %}
                         </select>
                     </div>
@@ -433,6 +434,8 @@
                         </label>
                       <select class="form-select form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select Sub Admin" data-allow-clear="true" multiple="multiple" name="selected_user">
+
+                            <option value="0" {% with a=i.user_ids|literal_eval %}{% if 0 in a and i.user_type == "4" %}  selected {% endif %}  {%endwith%}  >Select All</option>
                             {% for item in user %}
                         
                                 {% if item.user_type == "Business Admin"%}
@@ -442,19 +445,20 @@
                         </select>
                     </div>
 
-                    <div class="col-12 mt-4" id="Sub_admin_{{i.id}}" style="display: none;" >
+                    {% comment %} <div class="col-12 mt-4" id="Sub_admin_{{i.id}}" style="display: none;" >
                         <label class="form-check-label" for="individualUserSelect">
                             User
                         </label>
                       <select class="form-select form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select Business user" data-allow-clear="true" multiple="multiple" name="selected_user">
+
                             {% for item in subuser %}
-                        
+                      
                                 <option value="{{ item.id }}" {% with a=i.user_ids|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                         
                             {% endfor %}
                         </select>
-                    </div>
+                    </div> {% endcomment %}
 
                     <div class="col-12 mt-4">
                         <label class="form-check-label" for="flexSwitchChecked">
@@ -513,7 +517,7 @@
         const allowedExtensions = ["png", "jpg", "jpeg", "webp"];
         const maxSize = 2 * 1024 * 1024; // 2MB
         const maxWidth = 400;
-        const maxHeight = 800;
+        const maxHeight = 100;
 
         const file = input.files[0];
 
@@ -533,8 +537,8 @@
             if (fileSize > maxSize) {
                 displayValidationMessage(input.closest('.bg-body'), "File size exceeds 2MB");
                 submitButton.disabled = true; 
-            } else if (image.width > maxWidth || image.height > maxHeight) {
-                displayValidationMessage(input.closest('.bg-body'), "Image dimensions should be 400px X 800px or smaller");
+            } else if (image.width !== maxWidth && image.height !== maxHeight) {
+                displayValidationMessage(input.closest('.bg-body'), "Image dimensions should be 400px X 100px or smaller");
                 submitButton.disabled = true; 
             } else if (!allowedExtensions.some(ext => fileName.endsWith(ext))) {
                 displayValidationMessage(input.closest('.bg-body'), "Allowed file types are .png, .jpg, .jpeg, .webp");
@@ -581,7 +585,7 @@
             const allowedExtensions = ["png", "jpg", "jpeg", "webp"];
             const maxSize = 2 * 1024 * 1024; // 2MB
             const maxWidth = 400;
-            const maxHeight = 800;
+            const maxHeight = 100;
 
             const fileName = file.name.toLowerCase();
             const fileSize = file.size;
@@ -593,8 +597,8 @@
                 if (fileSize > maxSize) {
                     displayValidationMessagetempcreate(not_imgValidation, "File size exceeds 2MB");
                     not_submitButton.disabled = true;  
-                } else if (image.width > maxWidth || image.height > maxHeight) {
-                    displayValidationMessagetempcreate(not_imgValidation, "Image dimensions should be 400px X 800px or smaller");
+                } else if (image.width !== maxWidth && image.height !== maxHeight) {
+                    displayValidationMessagetempcreate(not_imgValidation, "Image dimensions should be 400px X 100px or smaller");
                     not_submitButton.disabled = true;  
                 } else if (!allowedExtensions.some(ext => fileName.endsWith(ext))) {
                     displayValidationMessagetempcreate(not_imgValidation, "Allowed file types are .png, .jpg, .jpeg, .webp");
