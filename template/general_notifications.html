@@ -229,7 +229,6 @@
                         </select>
                     </div>
 
-
                     <div class="col-12 mt-4" id="Business_Users" style="display: none;" >
                         <label class="form-check-label" for="individualUserSelect">
                             User
@@ -421,13 +420,10 @@
                                 data-placeholder="Select Business user" data-allow-clear="true" multiple="multiple" name="selected_user">
 
                             <option value="0" {% with a=i.user_ids|literal_eval %}{% if 0 in a and i.user_type == "3" %}  selected {% endif %}  {%endwith%}  >Select All</option>
-
                             {% for item in user %}
-                        
                                 {% if item.user_type == "Business User"%}
                                 <option value="{{ item.id }}" {% with a=i.user_ids|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                                 {% endif %}
-                        
                             {% endfor %}
                         </select>
                     </div>
@@ -456,9 +452,8 @@
                       <select class="form-select form-control form-control-solid" data-control="select2"
                                 data-placeholder="Select Business user" data-allow-clear="true" multiple="multiple" name="selected_user">
 
-
                             {% for item in subuser %}
-                        
+                      
                                 <option value="{{ item.id }}" {% with a=i.user_ids|literal_eval %} {% if item.id in a %} selected{% endif %}  {%endwith%} >{{ item.full_name }}</option>
                         
                             {% endfor %}

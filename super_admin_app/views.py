@@ -1,3 +1,4 @@
+import ast
 from collections import defaultdict
 from datetime import datetime, timezone
 import datetime
@@ -49,9 +50,6 @@ from utils import send_email_test
 from django.http import HttpResponseNotFound
 from django.db.models import Sum, F, Value, IntegerField
 
-
-
-
 def login(request):
     ilogo = GeneralSettings.objects.filter(id=1)
     for i in ilogo:
@@ -92,7 +90,7 @@ def home(request):
     user_id = request.session.get('userid')
     if user_id:
         user = tothiq_super_user.objects.get(id=user_id)
-        super_users = tothiq_super_user.objects.all()
+        super_users = tothiq_super_user.objects.all().order_by("-pk")
       
         username = user.full_name
         userimage = user.image
@@ -320,9 +318,7 @@ def update_password(request):
                 u = tothiq_super_user.objects.get(pk=user_id)
                 u.password = new
                 u.save()
-                
                 try:
-                    
                     subject = "Password Changed Successfully."
                     body = 'Congratulations, your profile password has been successfully changed. If you have any further questions or require assistance, please feel free to reach out to us.'
                     recipient_email = oldmail
@@ -416,7 +412,7 @@ def template_create(request):
             updated_at = timezone.now()
             image = request.FILES.get('imageInput')
             temp_id = request.POST.get('temp_id')
-            print(ind_free)
+            # print(ind_free)
             try:
                 new_template = template.objects.create(
                     template_title=template_title,
@@ -1711,7 +1707,7 @@ def update_label(request):
             label_id = request.POST.get('label_id')
             english_name = request.POST.get('updated_English')
             arabic_name = request.POST.get('updated_Arabic')
-            print(label_id,english_name,arabic_name,"-------------------------")
+            # print(label_id,english_name,arabic_name,"-------------------------")
             try:
                 label = languages_label.objects.get(id=label_id)
                 label.english = english_name
@@ -1780,8 +1776,8 @@ def coupon_management_details(request):
             else :
                 active_status = "inactive"
            
-            print(var7)
-            print(selected_user_integers)
+            # print(var7)
+            # print(selected_user_integers)
             try:
                 info = Coupon(
                 coupon_name=var1,
@@ -2255,8 +2251,8 @@ def paci_authantication(request):
         if request.method == "POST":
             paci_recalltime = request.POST["pacirecall_time"]
             paci_expiretime = request.POST["paci_expiretime"]
-            print(paci_expiretime)
-            print(paci_recalltime)
+            # print(paci_expiretime)
+            # print(paci_recalltime)
             try:
                 generalsettings = GeneralSettings.objects.get(id=1)
                 generalsettings.paci_recall_time   = paci_recalltime
@@ -2654,75 +2650,253 @@ def create_general_notifications(request):
     else:
         return redirect('superadminapp:login')
     
-def push_notification(request,title,msg):
-    push_service = FCMNotification(api_key="AAAA5LS_Q2E:APA91bEl-inXQwB-OrfEIT0k34patsZwicmujZay4a0lZoopkGEuxDfQp6KCHmP07tOIKzVdJGHPLaAt469F8N9tU4vcV_f8wEizbuUMSmgJ6xXav0RBKa_Hqd_4d1fMCsrtVYly6g6S")
+# def push_notification(request,title,msg):
+#     push_service = FCMNotification(api_key="AAAA5LS_Q2E:APA91bEl-inXQwB-OrfEIT0k34patsZwicmujZay4a0lZoopkGEuxDfQp6KCHmP07tOIKzVdJGHPLaAt469F8N9tU4vcV_f8wEizbuUMSmgJ6xXav0RBKa_Hqd_4d1fMCsrtVYly6g6S")
 
-# Fetch all Users with non-empty firebase_token
-    users_with_tokens = Users.objects.exclude(firebase_token='')
-# Extract firebase_token values and create the registration_ids list
-    registration_ids = [user.firebase_token for user in users_with_tokens]
+# # Fetch all Users with non-empty firebase_token
+#     users_with_tokens = Users.objects.exclude(firebase_token='')
+# # Extract firebase_token values and create the registration_ids list
+#     registration_ids = [user.firebase_token for user in users_with_tokens]
    
-    message_title = title
+#     message_title = title
     
-    message_body = msg
+#     message_body = msg
    
 
-    result = push_service.notify_multiple_devices(registration_ids=registration_ids, message_title=message_title, message_body=message_body)
+#     result = push_service.notify_multiple_devices(registration_ids=registration_ids, message_title=message_title, message_body=message_body)
+
+
+#     # print (result)
+def push_notification(request, title, msg, selected_user_integers, usertype, scheduled_time, id):
+    fcm_server_key=GeneralSettings.objects.get(id=1).fcm_server_key
+    push_service = FCMNotification(api_key=fcm_server_key)
+
+    registration_ids = []
+
+    try:
+        
+        # Update notification status to "in progress" at the beginning
+        notification = GeneralNotification.objects.get(id=id)
+        notification.push_status = "in progress"
+        notification.save()
+        
+        users = GeneralNotification.objects.get(id=id)
+        user_ids = ast.literal_eval(users.user_ids)
+
+        for user_id in user_ids:
+            if user_id == 0:
+                # print("Sending to all users")
+                if usertype == '1':
+                    users_to_notify = Users.objects.all()
+                elif usertype == '2':
+                    users_to_notify = Users.objects.filter(user_type='Individual User').order_by('pk')
+                elif usertype == '3':
+                    users_to_notify = Users.objects.filter(user_type='Business User').order_by('pk')
+                elif usertype == '4':
+                    users_to_notify = Users.objects.filter(user_type='Business User').order_by('pk')
+
+                for user in users_to_notify:
+                    user_tokens = user_firebase_token.objects.filter(user_id=user.id)
+                    registration_ids.extend([token.firebase_token for token in user_tokens])
+            else:
+                user_tokens = user_firebase_token.objects.filter(user_id=user_id)
+                registration_ids.extend([token.firebase_token for token in user_tokens])
+
+        # print(registration_ids)
+        message_title = title
+        message_body = msg
+
+        extra_kwargs = {
+            "data": {
+                "type": "general"
+            }
+        }
+
+        result = push_service.notify_multiple_devices(
+            registration_ids=registration_ids,
+            message_body=message_body,
+            message_title=message_title,
+            extra_kwargs=extra_kwargs
+        )
+
+        # print(result)
+        # Update notification status to "send" after sending notifications
+        notification.push_status = "send"
+        notification.save()
+
+    except Exception as e:
+        # Handle other exceptions that might occur
+        # You can log the error, return a specific HTTP response, or take other actions as needed
+        print(f"An error occurred: {e}")
 
 
     # print (result)
+
     
-def send_email(subject, body,selected_user_integers,usertype):
-    # users_with_email = Users.objects.exclude(firebase_token='')
-    # to_emails =[user.firebase_token for user in users_with_email]
-    to_emails = []
-    for i in selected_user_integers:
-        if usertype == '5':
-                if i == 0:
-                    user = tothiq_super_user.objects.all()
-                    for u in user:
-                        if u.email:
-                            to_emails.append(u.email)
-                else:
-                    user = tothiq_super_user.objects.get(id=i)
-                    to_emails.append(user.email)
-        else:
-            if i == 0:
-                if usertype == '1':
-                    user = Users.objects.all()
-                elif usertype == '2':
-                    user = Users.objects.filter(user_type='Individual User').order_by('pk')
-                elif usertype == '3':
-                    user = Users.objects.filter(user_type='Business User').order_by('pk')
-                elif usertype == '4':
-                    user = Users.objects.filter(user_type='Business User').order_by('pk')
+# def send_email(subject, body,selected_user_integers,usertype):
+#     # users_with_email = Users.objects.exclude(firebase_token='')
+#     # to_emails =[user.firebase_token for user in users_with_email]
+#     to_emails = []
+#     for i in selected_user_integers:
+#         if usertype == '5':
+#                 if i == 0:
+#                     user = tothiq_super_user.objects.all()
+#                     for u in user:
+#                         if u.email:
+#                             to_emails.append(u.email)
+#                 else:
+#                     user = tothiq_super_user.objects.get(id=i)
+#                     to_emails.append(user.email)
+#         else:
+#             if i == 0:
+#                 if usertype == '1':
+#                     user = Users.objects.all()
+#                 elif usertype == '2':
+#                     user = Users.objects.filter(user_type='Individual User').order_by('pk')
+#                 elif usertype == '3':
+#                     user = Users.objects.filter(user_type='Business User').order_by('pk')
+#                 elif usertype == '4':
+#                     user = Users.objects.filter(user_type='Business User').order_by('pk')
                     
-                for k in user:
-                    if k.email:
-                        to_emails.append(k.email)
-            else:
-                user = Users.objects.get(id=i)
-                to_emails.append(user.email)
+#                 for k in user:
+#                     if k.email:
+#                         to_emails.append(k.email)
+#             else:
+#                 user = Users.objects.get(id=i)
+#                 to_emails.append(user.email)
                     
                 
-    msg = MIMEMultipart()
-    msg['From'] = 'bhagydetroja.e19@gpahmedabad.ac.in'
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
-    def send_email_to_recipient(to_email):
+#     msg = MIMEMultipart()
+#     msg['From'] = 'bhagydetroja.e19@gpahmedabad.ac.in'
+#     msg['Subject'] = subject
+#     msg.attach(MIMEText(body, 'plain'))
+#     def send_email_to_recipient(to_email):
         
-        try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
-            server.login('bhagydetroja.e19@gpahmedabad.ac.in', 'Detroja@227')
-            server.sendmail('bhagydetroja.e19@gpahmedabad.ac.in', to_email, msg.as_string())
-            server.quit()
-            # print(f"Email sent successfully to {to_email}!")
-        except Exception as e: 
-            print(f"Error sending email to {to_email}: {str(e)}")
-    with ThreadPoolExecutor() as executor:
-        executor.map(send_email_to_recipient, to_emails)
+#         try:
+#             server = smtplib.SMTP('smtp.gmail.com', 587)
+#             server.starttls()
+#             server.login('bhagydetroja.e19@gpahmedabad.ac.in', 'Detroja@227')
+#             server.sendmail('bhagydetroja.e19@gpahmedabad.ac.in', to_email, msg.as_string())
+#             server.quit()
+#             # print(f"Email sent successfully to {to_email}!")
+#         except Exception as e: 
+#             print(f"Error sending email to {to_email}: {str(e)}")
+#     with ThreadPoolExecutor() as executor:
+#         executor.map(send_email_to_recipient, to_emails)
+
+
+  
+def send_email(subject, body, selected_user_integers, usertype, scheduled_time, id):
+    try:
+        # Update notification status to "in progress"
+        notification = GeneralNotification.objects.get(id=id)
+        notification.push_status = "in progress"
+        notification.save()
+
+        # Check if it's time to send the email
+        current_time = datetime.now()
+        if current_time >= scheduled_time:
+            # Prepare the email
+            to_emails = []  # List of recipient email addresses
+
+            # Populate to_emails based on your logic
+            # ...
+            for i in ast.literal_eval(selected_user_integers):
+                if usertype == '5':
+                        if i == 0:
+                            user = tothiq_super_user.objects.all()
+                            for u in user:
+                                if u.email:
+                                    to_emails.append(u.email)
+                        else:
+                            user = tothiq_super_user.objects.get(id=i)
+                            to_emails.append(user.email)
+                else:
+                    if i == 0:
+                        if usertype == '1':
+                            user = Users.objects.all()
+                        elif usertype == '2':
+                            user = Users.objects.filter(user_type='Individual User').order_by('pk')
+                        elif usertype == '3':
+                            user = Users.objects.filter(user_type='Business User').order_by('pk')
+                        elif usertype == '4':
+                            user = Users.objects.filter(user_type='Business User').order_by('pk')
+                            
+                        for k in user:
+                            if k.email:
+                                to_emails.append(k.email)
+                    else:
+                        user = Users.objects.get(id=i)
+                        to_emails.append(user.email)
+            # print(to_emails,"................................................................")
+            for to_email in to_emails:
+                msg = MIMEMultipart()
+                msg['From'] = 'bhagydetroja.e19@gpahmedabad.ac.in'
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'plain'))
+
+                with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                    server.starttls()
+                    server.login('bhagydetroja.e19@gpahmedabad.ac.in', 'Detroja@227')
+                    server.sendmail('bhagydetroja.e19@gpahmedabad.ac.in', to_email, msg.as_string())
+                    # print(f"Email sent successfully to {to_email}!")
+
+            # Update notification status to "send"
+            notification.push_status = "send"
+            notification.save()
+    except Exception as e:
+        # Handle exceptions and log the error
+        print(f"Error: {str(e)}")
+
         
+# def update_general_notifications(request):
+#     user_id = request.session.get('userid')
+#     if user_id:
+        
+#         if request.method == 'POST':
+#             id = request.POST.get('nid')
+#             title = request.POST.get('notifications_title')
+#             title_arabic = request.POST['notifications_title_arabic'] 
+#             message = request.POST.get('notifications_message')
+#             message_arabic = request.POST['notifications_message_arabic'] 
+#             notimage = request.FILES.get('notimageInput')
+#             if notimage==None:
+#                 nottab = GeneralNotification.objects.get(id=id)
+#                 notimage = nottab.image
+#             usertype = request.POST.get('notification_for_user')
+#             userids = request.POST.getlist('selected_user')
+#             selected_user_integers = list(set([int(user_id) for user_id in userids]))
+#             notifications_type = request.POST.get('notification_type')
+#             datetime = request.POST.get('datetime')
+#             try:
+#                 genral_not= GeneralNotification.objects.get(id=id)
+#                 genral_not.title = title
+#                 genral_not.title_arabic = title_arabic
+#                 genral_not.message_arabic = message_arabic
+#                 genral_not.message = message
+#                 genral_not.image = notimage
+#                 genral_not.user_type = usertype
+#                 genral_not.user_ids = selected_user_integers
+#                 genral_not.notifications_type = notifications_type
+#                 genral_not.schedule_datetime = datetime
+#                 genral_not.updated_at = timezone.now()  
+#                 genral_not.save()
+#                 try:
+#                     log_activity(request,user_id,"update notification")
+#                 except Exception as e:
+#                     return render(request , "connection_error.html")
+                        
+#             except genral_not.DoesNotExist:
+#                 return render(request, 'result.html', {'message': 'Coupon not found'})
+       
+          
+#             messages.info(request, 'Notifications have been Updated')
+#             return redirect('superadminapp:General Notifications')
+
+#     else:
+#         return redirect('superadminapp:login')
+
+   
 def update_general_notifications(request):
     user_id = request.session.get('userid')
     if user_id:
@@ -2751,7 +2925,7 @@ def update_general_notifications(request):
                 genral_not.image = notimage
                 genral_not.user_type = usertype
                 genral_not.user_ids = selected_user_integers
-                genral_not.notifications_type = notifications_type
+                genral_not.push_type = notifications_type.lower()
                 genral_not.schedule_datetime = datetime
                 genral_not.updated_at = timezone.now()  
                 genral_not.save()
@@ -2814,7 +2988,7 @@ def creat_tothiq_user(request):
             Number = request.POST['Number']
             email = request.POST['email']
             current_time =timezone.now()
-            print(current_time)
+            # print(current_time)
             
             # create_template = request.POST.get('create_template')  # A
             # if create_template == "true":
@@ -3262,7 +3436,7 @@ def block_unblock_business(request):
                     # print("mail is send active")
                 except Exception as e:
                     # Return an error response
-                    print("mail is not send active")
+                    # print("mail is not send active")
                     return HttpResponse(f'<h3>Error sending email: {e}</h3>')
             active = "active"
             return JsonResponse({'active_status':active })
