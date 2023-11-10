@@ -1,0 +1,92 @@
+For database connection 
+===================================
+sudo -u postgres psql
+--> psql -h localhost -U postgres6 -d tothiqv4
+--> \l (for database list)
+--> \c database_name (for switch database)
+--> \dt (show all tabels)
+
+
+For Database backup
+=====================================
+--> pg_dump -U postgres6 -d tothiqv4 -f DB_backup_02112023.sql
+
+
+For Database import
+=======================================
+--> psql -h localhost -p 5432 -U postgres7 -d tothiqv5 -f dump.sql
+
+
+For one table backup
+======================================
+--> \copy tablename to 'filename' csv; 
+--> pg_dump -t (table_name) (database_name) > '(File_name).sql' 
+
+
+Tothiq Client Demo server (http://65.0.55.246:8000/) :
+=======================================================
+Database name : tothiqbetav2
+User name : tothiqbetauser
+password : tothiqbetauserpwd123
+host : localhost
+port : 5432
+
+
+Live server (panel.tothiq.com) :
+=================================
+Database name : tothiqv1
+User name : postgres2
+password : tothiquser123
+host : localhost
+port : 5432
+
+
+
+
+For internal testing truncate database (panel.tothiq.com)
+=========================================================
+Database name : tothiqv4
+User name : postgres6
+password : tothiqv4
+host : localhost
+port : 5432
+
+
+
+For internal demo truncate database (panel.tothiq.com)
+=======================================================
+Database name : tothiqv5
+user name : postgres7
+password : tothiqv5
+host : localhost
+port : 5432
+
+
+
+
+Client Email SMTP Services : 
+=====================================
+Host : smtp-relay.brevo.com
+Port : 587
+User : office@tothiq.com
+Password : jh4zVfKPAtBprLmc
+
+
+
+TRUNCATE TABLE (table_name);
+TRUNCATE TABLE (table_name) RESTART IDENTITY;
+
+INSERT INTO tothiq_super_user (full_name,email,phone_number,password,image,created_at,updated_at,last_login,active_status)
+VALUES ('Developer','developer@tothiq.com','1234567890','pbkdf2_sha256$260000$CL8zbeXhmmIn3zue3nMRep$LdOX0pfsG+cdkkTA1WezUvwv1HxvKsSaMo9ovJ/xXqw=','profile_pic_filename.jpg','2023-08-10 20:12:07.542561+00', NULL, NULL, 'active');
+
+
+278112002234
+smackyin@gmail.com
+
+UPDATE users SET civil_id = '278112002309' WHERE civil_id = '278112002234';
+UPDATE users SET email = 'smackyin2106@gmail.com' WHERE email = 'smackyin@gmail.com';
+
+UPDATE general_settings SET paci_expire_time = '60' WHERE paci_expire_time = '120';
+
+
+UPDATE languages_label SET arabic = english;

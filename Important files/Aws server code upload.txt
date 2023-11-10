@@ -1,0 +1,49 @@
+--> AWS and Cloud Flare
+URL : signin.aws.amazon.com
+User Name : aywaa@msn.com
+Password : Xw@r7v?gte
+
+--> git lab persnoal
+Bhagydetroja227@gmail.com
+Tarul@208
+
+
+--> git lab
+wb.bharatparmar
+Bharat@383#
+
+================================================================================
+--> git pull origin beta-tothiq
+--> git pull --rebase origin beta-tothiq
+--> git stash
+--> git pull origin beta-tothiq
+--> git stash apply
+--> git reset --hard origin/beta-tothiq
+--> git push --force origin beta-tothiq
+--> git checkout -b beta-tothiq
+--> git push --force origin beta-tothiq
+--> screen
+--> activate env
+--> runserver
+
+
+
+For database access
+===========================================
+--> psql -h localhost -U postgres2 -d tothiqv1
+--> psql -h localhost -U tothiqbetauser -d tothiqbetav2
+
+DB password : tothiquser123
+
+--> \l (for database list)
+--> \c database_name (for switch database)
+--> \dt (show all tabels)
+
+--> \copy tablename to 'filename' csv; (for tabel .csv)
+
+
+278112002234
+smackyin@gmail.com
+
+UPDATE users SET civil_id = '278112002309' WHERE civil_id = '278112002234';
+UPDATE users SET email = 'smackyin2106@gmail.com' WHERE email = 'smackyin@gmail.com';

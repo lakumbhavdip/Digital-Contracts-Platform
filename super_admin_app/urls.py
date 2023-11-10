@@ -9,6 +9,8 @@ app_name = 'superadminapp'
 urlpatterns = [
     
     path('', views.login, name='login'),
+    path('get_chart_data/', views.get_chart_data, name='get_chart_data'),
+    
     path('temp_update/<int:templateid>/', views.template_update, name='Template_Update'),
     path('template_create_second/<int:templateid>/', views.template_create_second, name='Template_Create_Second'),
     path('home/', views.home, name='home'),
@@ -41,7 +43,9 @@ urlpatterns = [
 
     path('coupon_management/', views.coupon_management, name='Coupon_Management'),
     path('coupon_management_details/', views.coupon_management_details, name='Coupon_Management_Details'),
-    path('coupon/update/',views.update_coupon, name= "update_cupen"),    
+    path('coupon/update/',views.update_coupon, name= "update_cupen"),  
+    path('coupon_view/<int:couponid>/',views.coupon_view, name= "Coupon_View"),  
+      
     path('setting/', views.setting, name='Setting'),
     path('user_report/', views.user_report, name='User_Report'),
     path('finance_reports/', views.finance_reports, name='finance_reports'),    

@@ -100,8 +100,17 @@
                                         <td class=" pe-0">{{i.start_datetime|date:"d-m-Y  "}}</td>
                                         <td class=" pe-0">{{i.end_datetime|date:"d-m-Y  "}}</td>
 
-                                        <td class=""><button id="kt_drawer_chat_toggle_2_{{ forloop.counter }}"
-                                            class="editButton btn btn-outline-light btn-rounded" data-id="{{i.coupon_code}}"><i class="material-icons" style="font-size: 24px;">edit</i></button></td>
+                                        <td class="">
+                                            <button id="kt_drawer_chat_toggle_2_{{ forloop.counter }}"
+                                                class="editButton btn btn-outline-light btn-rounded" data-id="{{i.coupon_code}}"><i class="material-icons" style="font-size: 24px;">edit</i>
+                                            </button> 
+                                            <a href="{% url 'superadminapp:Coupon_View' i.id %}">
+                                                    <i class="fa-solid fa-eye" style="font-size: 18px;"></i>
+                                            </a>
+
+                                        
+                                            
+                                        </td>
 
                                     </tr>
                                     {% endfor %}

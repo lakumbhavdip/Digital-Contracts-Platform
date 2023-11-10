@@ -253,7 +253,7 @@
                                                 <!-- {{ i.active_status }} -->
                                                 {%if i.active_status == "active"%}<i class="fa-solid fa-check" style="color: green;font-size: 24px;"></i> {%elif i.active_status == "blocked"%}<i class="fa-solid fa-minus-circle" style="color: red; font-size: 24px;"></i>
                                                 {%endif%}
-                                                <!-- {%if i.active_status == "active"%}<i class="fa-solid fa-check" style="color: green;font-size: 24px;"></i>{%elif i.active_status == "inactive"%}<i class="fa-solid fa-ban" style="color: red; font-size: 24px;"></i>{%endif%} -->
+                                                {% comment %} {%if i.active_status == "active"%}<i class="fa-solid fa-check" style="color: green;font-size: 24px;"></i>{%elif i.active_status == "inactive"%}<i class="fa-solid fa-ban" style="color: red; font-size: 24px;"></i>{%endif%} {% endcomment %}
                                             </td>
                                             <td class="">{{ i.created_at|date:"d-m-Y | H:i " }}</td>
                                             <!--end::Total=-->

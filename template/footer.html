@@ -559,6 +559,1538 @@ document.getElementById('Search').addEventListener('input', searchFunction);
 </script>
 <!-- validattion  email -->
 
+{% comment %} 
+<!-- Individual Free Graph -->
+<script>
+
+  var initChart = function(dynamicData,months) {
+    console.log(dynamicData,"567-------------------")
+    console.log(months,"568-------------------")
+
+    var e = document.querySelector(".widget-ind-free");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: dynamicData
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e + " KWD"
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+
+// AJAX Request to get dynamic data from Django view
+var getDynamicChartData = function() {
+  $.ajax({
+      url: "{% url 'superadminapp:get_chart_data' %}",  
+      type: 'GET',
+      dataType: 'json',
+
+      success: function(response) {
+        initChart(response.data,response.months);
+      },
+      error: function(error) {
+        console.error('Error fetching dynamic data:', error);
+      }
+  });
+};
+getDynamicChartData();
+</script>
+<!-- Individual Free Graph --> {% endcomment %}
+
+<!-- Individual Free Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-ind-free");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Individual Free Graph -->
+
+<!-- Individual Basic Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-ind-basic");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Individual Basic Graph -->
+
+<!-- Individual Premium Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-ind-Premium");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Individual Premium Graph -->
+
+<!-- Individual Gold Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-ind-gold");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Individual Gold Graph -->
+
+
+<!-- Individual Platinum Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-ind-Platinum");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Individual Platinum Graph -->
+
+
+
+<!-- Business free Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-business-free");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Business free Graph -->
+
+<!-- Business basic Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-business-basic");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Business bsaic Graph -->
+
+<!-- Business premium Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-business-premium");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Business premium Graph -->
+
+<!-- Business gold Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-business-gold");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Business gold Graph -->
+
+<!-- Business platinum Graph -->
+<script>
+  var initChart = function() {
+    var e = document.querySelectorAll(".widget-business-platinum");
+    [].slice.call(e).map((function(e) {
+      var t = parseInt(KTUtil.css(e, "height"));
+      if (e) {
+        var a = e.getAttribute("data-kt-chart-color"),
+          o = KTUtil.getCssVariableValue("--bs-gray-800"),
+          s = KTUtil.getCssVariableValue("--bs-gray-300"),
+          r = KTUtil.getCssVariableValue("--bs-" + a),
+          i = KTUtil.getCssVariableValue("--bs-light-" + a);
+        new ApexCharts(e, {
+          series: [{
+            name: "Net Profit",
+            data: [15, 25, 15, 40, 20, 50]
+          }],
+          chart: {
+            fontFamily: "inherit",
+            type: "area",
+            height: t,
+            toolbar: {
+              show: !1
+            },
+            zoom: {
+              enabled: !1
+            },
+            sparkline: {
+              enabled: !0
+            }
+          },
+          plotOptions: {},
+          legend: {
+            show: !1
+          },
+          dataLabels: {
+            enabled: !1
+          },
+          fill: {
+            type: "solid",
+            opacity: 1
+          },
+          stroke: {
+            curve: "smooth",
+            show: !0,
+            width: 3,
+            colors: [r]
+          },
+          xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+            axisBorder: {
+              show: !1
+            },
+            axisTicks: {
+              show: !1
+            },
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            },
+            crosshairs: {
+              show: !1,
+              position: "front",
+              stroke: {
+                color: s,
+                width: 1,
+                dashArray: 3
+              }
+            },
+            tooltip: {
+              enabled: !0,
+              formatter: void 0,
+              offsetY: 0,
+              style: {
+                fontSize: "12px"
+              }
+            }
+          },
+          yaxis: {
+            min: 0,
+            max: 60,
+            labels: {
+              show: !1,
+              style: {
+                colors: o,
+                fontSize: "12px"
+              }
+            }
+          },
+          states: {
+            normal: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            hover: {
+              filter: {
+                type: "none",
+                value: 0
+              }
+            },
+            active: {
+              allowMultipleDataPointsSelection: !1,
+              filter: {
+                type: "none",
+                value: 0
+              }
+            }
+          },
+          tooltip: {
+            style: {
+              fontSize: "12px"
+            },
+            y: {
+              formatter: function(e) {
+                return "KD" + e 
+              }
+            }
+          },
+          colors: [i],
+          markers: {
+            colors: [i],
+            strokeColor: [r],
+            strokeWidth: 3
+          }
+        }).render()
+      }
+    }))
+  }
+  initChart();
+</script>
+<!-- Business platinum Graph -->
+
 
 </body>
 

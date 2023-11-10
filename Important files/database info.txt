@@ -1,0 +1,46 @@
+For database connection 
+===================================
+--> psql -h localhost -U (username) -d (database_name)
+--> \l (for database list)
+--> \c database_name (for switch database)
+--> \dt (show all tabels)
+
+
+For one Database backup
+=====================================
+--> pg_dump -U (username) -d (database_name) -f (File_name).sql
+
+
+For one Database import
+=======================================
+--> psql -h (host) -p (port) -U (username) -d (database_name) -f "C:/Users/Finespun/Downloads/backup94.sql"
+
+
+
+For one table backup
+======================================
+--> \copy tablename to 'filename' csv; 
+--> pg_dump -t (table_name) (database_name) > '(File_name).sql'
+
+
+
+
+Tothiq Client Demo server :
+====================================
+Database name : tothiqbetav2
+User name : tothiqbetauser
+password : tothiqbetauserpwd123
+host : localhost
+port : 5432
+
+
+
+Live server (panel.tothiq.com) :
+=====================================
+Database name : tothiqv1
+User name : postgres2
+password : tothiquser123
+host : localhost
+port : 5432
+
+

@@ -50,6 +50,16 @@ from utils import send_email_test
 from django.http import HttpResponseNotFound
 from django.db.models import Sum, F, Value, IntegerField
 
+
+# stored_hash = "pbkdf2_sha256$260000$CL8zbeXhmmIn3zue3nMRep$LdOX0pfsG+cdkkTA1WezUvwv1HxvKsSaMo9ovJ/xXqw="
+# input_password = "12345678"
+
+# if check_password(input_password, stored_hash):
+#     print("Password is correct.-----------------------------------------------------")
+# else:
+#     print("Password is incorrect.===================================================")
+
+
 def login(request):
     ilogo = GeneralSettings.objects.filter(id=1)
     for i in ilogo:
@@ -75,7 +85,7 @@ def login(request):
                 return render(request , "connection_error.html")
             try:
                 subject = "Your User Account Login Information"
-                body = 'Congratulations, you have successfully logged into your account. If you have any questions or need assistance, please do not hesitate to contact us.'
+                body = format_html('<p>Congratulations, you have successfully logged into your account. If you have any questions or need assistance, please do not hesitate to contact us.</p>')
                 recipient_email = email
 
                 send_email_test(subject, body, recipient_email)
@@ -166,6 +176,29 @@ def home(request):
         return render(request, 'dashboard.html', context)
     else:
         return redirect('superadminapp:login')
+
+def get_chart_data(request):
+    # Your logic to fetch dynamic data, replace this with your actual data retrieval logic
+    
+    current_year = timezone.now().year
+    
+    monthly_net_profit = (
+        Payment.objects
+        .filter(created_at__year=current_year)
+        .values('created_at__month')
+        .annotate(net_profit=Sum('net_amount'))
+        .order_by('created_at__month')
+    )
+
+    months = [entry['created_at__month'] for entry in monthly_net_profit]
+    dynamic_data = [float(entry['net_profit']) for entry in monthly_net_profit]
+
+    print("Months:", months)
+    print("Net Profits:", dynamic_data)
+    
+    # dynamic_data = [30, 40, 25, 45, 35, 5]
+    # Return data as JSON
+    return JsonResponse({'data': dynamic_data,'months': months})
 
 def template_update(request, templateid):
     user_id = request.session.get('userid')
@@ -291,7 +324,7 @@ def profile_update(request):
             try:
                 
                 subject = "Profile Update Successful."
-                body = 'Congratulations! Your profile has been updated successfully. If you have any further changes or need assistance, feel free to reach out to us anytime.'
+                body = format_html('<p>Congratulations! Your profile has been updated successfully. If you have any further changes or need assistance, feel free to reach out to us anytime.</p>')
                 recipient_email = oldmail
                 send_email_test(subject, body, recipient_email)
               
@@ -320,7 +353,9 @@ def update_password(request):
                 u.save()
                 try:
                     subject = "Password Changed Successfully."
-                    body = 'Congratulations, your profile password has been successfully changed. If you have any further questions or require assistance, please feel free to reach out to us.'
+                    body = format_html(
+                        '<p>Congratulations, your profile password has been successfully changed. If you have any further questions or require assistance, please feel free to reach out to us.</p>'
+                    )
                     recipient_email = oldmail
 
                     send_email_test(subject, body, recipient_email)
@@ -969,7 +1004,7 @@ def user_individual_add_contracts(request):
             try:
                 
                 subject = " Successful Contract Addition."
-                body = 'Congratulations! Your contract has been successfully added to your account. If you have any questions or need further assistance, please do not hesitate to reach out.'
+                body = format_html('<p>Congratulations! Your contract has been successfully added to your account. If you have any questions or need further assistance, please do not hesitate to reach out.</p>')
                 recipient_email = oldmail
 
                 send_email_test(subject, body, recipient_email)
@@ -1183,16 +1218,20 @@ def user_individual_upgrade_membership(request):
                     oldmail = i.email
                 try:
                     subject = " Successful Membership Upgrade."
-                    message = 'Congratulations! Your membership is successfult upgraded to your account. If you have any questions or need further assistance, please do not hesitate to reach out.'
-                    recipient = oldmail
-
-                    send_mail(
-                        subject,
-                        message,
-                        EMAIL_HOST_USER,
-                        [recipient],
-                        fail_silently=False,
+                    body = format_html('<p>Congratulations! Your membership is successfult upgraded to your account. If you have any questions or need further assistance, please do not hesitate to reach out.</p>'
                     )
+                    recipient_email = oldmail
+                    
+                    
+                    send_email_test(subject, body, recipient_email)
+
+                    # send_mail(
+                    #     subject,
+                    #     message,
+                    #     EMAIL_HOST_USER,
+                    #     [recipient],
+                    #     fail_silently=False,
+                    # )
                 except Exception as e:
                     return HttpResponse(f'<h3>Error sending email: {e}</h3>')
                         
@@ -1767,6 +1806,7 @@ def coupon_management_details(request):
             var12 = request.POST.getlist('selected_user')
             selected_user_integers = list(set([int(user_id) for user_id in var12]))
             var13 = request.POST.getlist('discount_for_user_type')
+            
             var14 = request.POST.get('couponrate')
 
             current_datetime = datetime.now()
@@ -1862,6 +1902,18 @@ def coupon_management_details(request):
         return redirect('superadminapp:login')     
     # return render(request,'coupon_management_details.html',context)
 
+def coupon_view(request,couponid):
+    user_id = request.session.get('userid')
+    if user_id: 
+        coupon_details = Coupon.objects.filter(pk=couponid)
+        for i in coupon_details:
+            c_code = i.coupon_code
+        payment_history = Payment.objects.filter(coupon_code=c_code,payment_status='success')
+        print(payment_history)
+        return render(request, "coupon_view.html",{"coupon_details":coupon_details,"payment_history":payment_history})
+    else:
+        return redirect('superadminapp:login')   
+
 def update_coupon(request):
     user_id = request.session.get('userid')
     if user_id:
@@ -1896,6 +1948,13 @@ def update_coupon(request):
                 active_status = "inactive"
     
             var13 = request.POST.getlist('discount_for_user_type')
+            if 'all' in var13 and len(var13) > 1:
+                var13.remove('all') 
+                print("Removed 'all' from the list.")
+            else:
+                print("No action taken for 'all'.")
+
+                 
             var14 = request.POST.get('couponrate')
             # print(var3,"..........................................")
             # print(selected_user_integers,"..........................................")
@@ -2037,7 +2096,6 @@ def maintenance_mode_setting(request):
             mt  = request.POST['miantitle']
             mc  = request.POST['mainconte']
             
-            
             # GeneralSettings.objects.filter(id=1).update(
             #     maintenance_enable=me,
             #     individual_user=iu,
@@ -2105,7 +2163,6 @@ def application_setting(request):
             # print("__________________________________________________")
             acv  = request.POST['acv']
             anv  = request.POST['anv']
-     
             # GeneralSettings.objects.filter(id=1).update(
             #     production_server_API_end_point=psaep,
             #     pre_production_server_API_end_point=ppseaep,
@@ -2652,21 +2709,15 @@ def create_general_notifications(request):
     
 # def push_notification(request,title,msg):
 #     push_service = FCMNotification(api_key="AAAA5LS_Q2E:APA91bEl-inXQwB-OrfEIT0k34patsZwicmujZay4a0lZoopkGEuxDfQp6KCHmP07tOIKzVdJGHPLaAt469F8N9tU4vcV_f8wEizbuUMSmgJ6xXav0RBKa_Hqd_4d1fMCsrtVYly6g6S")
-
 # # Fetch all Users with non-empty firebase_token
 #     users_with_tokens = Users.objects.exclude(firebase_token='')
 # # Extract firebase_token values and create the registration_ids list
-#     registration_ids = [user.firebase_token for user in users_with_tokens]
-   
-#     message_title = title
-    
+#     registration_ids = [user.firebase_token for user in users_with_tokens]   
+#     message_title = title    
 #     message_body = msg
-   
-
 #     result = push_service.notify_multiple_devices(registration_ids=registration_ids, message_title=message_title, message_body=message_body)
-
-
 #     # print (result)
+
 def push_notification(request, title, msg, selected_user_integers, usertype, scheduled_time, id):
     fcm_server_key=GeneralSettings.objects.get(id=1).fcm_server_key
     push_service = FCMNotification(api_key=fcm_server_key)
@@ -2732,7 +2783,6 @@ def push_notification(request, title, msg, selected_user_integers, usertype, sch
 
     # print (result)
 
-    
 # def send_email(subject, body,selected_user_integers,usertype):
 #     # users_with_email = Users.objects.exclude(firebase_token='')
 #     # to_emails =[user.firebase_token for user in users_with_email]
@@ -2764,8 +2814,7 @@ def push_notification(request, title, msg, selected_user_integers, usertype, sch
 #             else:
 #                 user = Users.objects.get(id=i)
 #                 to_emails.append(user.email)
-                    
-                
+                             
 #     msg = MIMEMultipart()
 #     msg['From'] = 'bhagydetroja.e19@gpahmedabad.ac.in'
 #     msg['Subject'] = subject
@@ -2783,8 +2832,6 @@ def push_notification(request, title, msg, selected_user_integers, usertype, sch
 #             print(f"Error sending email to {to_email}: {str(e)}")
 #     with ThreadPoolExecutor() as executor:
 #         executor.map(send_email_to_recipient, to_emails)
-
-
   
 def send_email(subject, body, selected_user_integers, usertype, scheduled_time, id):
     try:
@@ -2848,11 +2895,9 @@ def send_email(subject, body, selected_user_integers, usertype, scheduled_time, 
         # Handle exceptions and log the error
         print(f"Error: {str(e)}")
 
-        
 # def update_general_notifications(request):
 #     user_id = request.session.get('userid')
 #     if user_id:
-        
 #         if request.method == 'POST':
 #             id = request.POST.get('nid')
 #             title = request.POST.get('notifications_title')
@@ -2884,19 +2929,14 @@ def send_email(subject, body, selected_user_integers, usertype, scheduled_time, 
 #                 try:
 #                     log_activity(request,user_id,"update notification")
 #                 except Exception as e:
-#                     return render(request , "connection_error.html")
-                        
+#                     return render(request , "connection_error.html")                        
 #             except genral_not.DoesNotExist:
-#                 return render(request, 'result.html', {'message': 'Coupon not found'})
-       
-          
+#                 return render(request, 'result.html', {'message': 'Coupon not found'})       
 #             messages.info(request, 'Notifications have been Updated')
 #             return redirect('superadminapp:General Notifications')
-
 #     else:
 #         return redirect('superadminapp:login')
 
-   
 def update_general_notifications(request):
     user_id = request.session.get('userid')
     if user_id:
@@ -3031,7 +3071,13 @@ def creat_tothiq_user(request):
                 try:
                     password = ''.join(random.choice('0123456789') for _ in range(6))
                     subject = "Invitstion of tothiq super admin "
-                    body = f"Welcome! You are added as a Tothiq-User\n\nPassword is: {password}"
+                    # body = f"Welcome! You are added as a Tothiq-User\n\nPassword is: {password}"
+                    body = format_html(
+                        '<p>Welcome! You have been added as a Tothiq Superuser.</p>'
+                        f'<p>Your password is: {password}</p>'
+                        '<p>Please keep your password safe and do not share it with anyone.</p>'
+                    )
+                    
                     recipient_email = email
                     
                     send_email_test(subject, body, recipient_email)
@@ -3217,7 +3263,6 @@ def email_template_setting(request):
 #             esubject = request.POST['email_subject']
 #             earabicsubject = request.POST['email_subject_arabic']
 #             econtent = request.POST['email_content']
-            
 #             emailtemplate = Email_Template(
 #             email_code=ecode,
 #             email_subject= esubject,
@@ -3229,7 +3274,6 @@ def email_template_setting(request):
 #             emailtemplate.save()
 #             messages.info(request, 'Email Template Created')
 #             return  redirect('superadminapp:Email_Template')
-
 #     else:
 #         return redirect('superadminapp:login')  
     
@@ -3354,7 +3398,7 @@ def block_unblock_user(request):
                     for i in oldemail:
                         oldmail = i.email
                     subject = " Account Unblock by TOTHIQ."
-                    body = 'Your account has been Unblock by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.'
+                    body = format_html('<p> Your account has been Unblock by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.</p>')
                     
                     recipient_email = oldmail
 
@@ -3395,12 +3439,10 @@ def block_unblock_business(request):
                     for i in oldemail:
                         oldmail = i.email
                     subject = " Account Block by TOTHIQ."
-                    body = 'Your account has been Block by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.'
-                    
+                    body = format_html('<p> Your account has been Block by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.</p>')
                     recipient_email = oldmail
                     
                     send_email_test(subject, body, recipient_email)
-
 
                     # send_mail(
                     #         subject,
@@ -3422,17 +3464,18 @@ def block_unblock_business(request):
                     for i in oldemail:
                         oldmail = i.email
                     subject = " Account Unblock by TOTHIQ."
-                    message = 'Your account has been Unblock by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.'
-                    
-                    recipient = oldmail
+                    body = format_html('<p>Your account has been Unblock by TOTHIQ. If you have any questions or need further assistance, please do not hesitate to reach out.</p>')                    
+                    recipient_email = oldmail
 
-                    send_mail(
-                            subject,
-                            message,
-                            EMAIL_HOST_USER,
-                            [recipient],
-                            fail_silently=False,
-                        )
+                    send_email_test(subject, body, recipient_email)
+                    
+                    # send_mail(
+                    #         subject,
+                    #         message,
+                    #         EMAIL_HOST_USER,
+                    #         [recipient],
+                    #         fail_silently=False,
+                    #     )
                     # print("mail is send active")
                 except Exception as e:
                     # Return an error response
@@ -3461,7 +3504,7 @@ def active_inactive_business(request):
                     for i in oldemail:
                         oldmail = i.email
                     subject = " Account inactive by TOTHIQ."
-                    body = 'Your account has been inactive by TOTHIQ. Please contact TOTHIQ Support at tothiq  for assistance.'
+                    body = format_html('<p>Your account has been inactive by TOTHIQ. Please contact TOTHIQ Support at tothiq  for assistance.</p>')
                     
                     recipient_email = oldmail
                     
@@ -3486,8 +3529,9 @@ def active_inactive_business(request):
                     for i in oldemail:
                         oldmail = i.email
                     subject = " Account active by TOTHIQ."
-                    body = 'Your account has been active by TOTHIQ. Please contact TOTHIQ Support at tothiq for assistance.'
+                    body = format_html('<p>Your account has been active by TOTHIQ. Please contact TOTHIQ Support at tothiq for assistance.</p>')
                     
+
                     recipient_email = oldmail
 
                     send_email_test(subject, body, recipient_email)
